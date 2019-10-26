@@ -1,0 +1,55 @@
+.auth-tab {
+    
+    background-color: darkslategray;
+    color: white;
+    width: 28%;
+    margin: auto;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    /* padding: 13px; */
+    font-weight: 500;
+    z-index: 99;
+    position: relative;
+    cursor: pointer;
+
+}
+
+.auth-tab-menu {
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    padding: 13px;
+    transition: background 0.5s;
+  
+   
+}
+
+.auth-tab-selected {
+    background-position: center;
+    /* background: grey; */
+    transition: background 0.5s;
+    margin-top: 20%
+    /* padding: 7px; */
+}
+
+.auth-tab-selected:active{
+    background-color: green;
+    background-size: 100%;
+    transition: background 0s;
+  
+}
+
+.auth-tab-menu:hover{
+    background-color: green;
+    background-size: 100%;
+    transition: background 0.8s;
+   
+}
+
+.auth-content {
+    margin-top: -50px;
+    z-index: -9;
+}

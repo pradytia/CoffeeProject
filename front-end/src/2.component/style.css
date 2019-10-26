@@ -1,0 +1,33 @@
+.gambar{
+    cursor: pointer;
+    height: 150px
+    
+}
+
+.checked {
+    color : orange;
+}
+
+.harga{
+    color: darkgoldenrod;
+    font-weight: bolder;
+}
+
+.nama{
+    font-style: italic;
+}
+
+.keranjang {
+    background-color: green;
+    background-size: 100%;
+    background-position: center;
+    padding: 10px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+
+.bawah{
+    background-color: white
+}

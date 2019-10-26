@@ -1,0 +1,7 @@
+.satu, .dua, .tiga {
+    border: 1px solid #ccc;
+}
+
+.pict:hover {
+    transform: scale(1.1); 
+}
