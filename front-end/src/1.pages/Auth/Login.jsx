@@ -38,8 +38,8 @@ class LoginPage extends Component {
     render() {
       if(this.props.user.username !== ''){
         return <Redirect to="/" exact /> 
-
       }
+      
       const {email, password} = this.props.loginForm
 
     return (

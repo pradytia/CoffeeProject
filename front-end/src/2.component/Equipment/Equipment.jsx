@@ -16,7 +16,7 @@ const Equipment = (props) => {
             {/* <div className='discount'>{props.discount}%</div> */}      
             <p>
                 <span className="nama mt-3">{props.nama}</span><br/>
-                <span className='harga'>Rp. {props.harga}</span>
+                <span className='harga'>Rp. {new Intl.NumberFormat('id-ID').format(props.harga)}</span>
             </p>
                 
                 <div className=''>
@@ -28,12 +28,18 @@ const Equipment = (props) => {
                 <span style={{fontSize:'12px'}}>{props.ulasan}</span>                   
                 </div>          
             </div>
-            <div className="">
-                 <Link to={'/equipment-details/' + props.id}>
+            <div className=""> 
                      <center>
-                        <h5 className="fas fa-shopping-cart keranjang" style={{color:'white'}}> </h5>
+                         {
+                             props.username 
+                             ?
+                             <h5 type='button' onClick={props.fnCart} className="fas fa-shopping-cart keranjang" style={{color:'white'}}> </h5>
+                             :
+                            <Link to='/auth'>
+                                <h5 type='button' className="fas fa-shopping-cart keranjang" style={{color:'white'}}> </h5>
+                            </Link>
+                         } 
                      </center>
-                </Link>
             </div>
         </div>
     );

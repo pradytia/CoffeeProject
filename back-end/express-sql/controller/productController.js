@@ -2,6 +2,74 @@ const { sqlDB } = require('../database');
 
 module.exports = {
 
+
+    getProduct : (req,res) => {
+        var sql = `SELECT   p.id as id_product,
+                            nama as nama,
+                            idJenis as idJenis,
+                            harga as harga,
+                            discount as discount,
+                            deskripsi as deskripsi,
+                            pathImg as pathImg,
+                            j.id as id_jenis,
+                            namaJenis as namaJenis
+                            FROM products p 
+                            JOIN jenis j
+                            ON j.id = p.idJenis;`
+
+        sqlDB.query(sql, (err,result) => {
+            if(err) return res.status(500).send(err)
+
+            res.status(200).send(result)
+        })
+    },
+
+    editProduct : (req,res) => {
+
+        var sql = `UPDATE products SET ? WHERE id = ${sqlDB.escape(req.params.id)};`;
+
+        sqlDB.query(sql, req.body, (err,result) => {
+            if(err) return res.status(500).send({ message : 'Update product from database error', err})
+
+            res.status(200).send(result)
+        })
+    },
+
+    deleteProduct : (req,res) => {
+
+        var sql = `DELETE FROM products WHERE id = ${sqlDB.escape(req.params.id)};`;
+
+        sqlDB.query(sql, (err,result) => {
+            if(err) return res.status(500).send({ message : 'Delete product from database error', err})
+
+            res.status(200).send(result)
+        })
+
+    },
+
+    addProduct : (req,res) => {
+
+        var sql = `INSERT INTO products SET ?;`;
+
+        sqlDB.query(sql, req.body,(err,result) => {
+            if(err) return res.status(500).send({ message : 'Insert into products from database error', err})
+
+            res.status(200).send(result)
+        })
+
+    },
+
+    getJenis : (req,res) => {
+
+        var sql = `SELECT * from jenis;`;
+
+        sqlDB.query(sql, (err,result) => {
+            if(err) return res.status(500).send({ message : 'select jenis from database error', err})
+
+            res.status(200).send(result)
+        })
+    },
+
     //================================== BREWER =============================\\
 
     getBrewer  : (req,res) => {
@@ -93,7 +161,7 @@ module.exports = {
 
     getGift : (req,res) => {
 
-        var sql = `SELECT * FROM products WHERE idJenis = 3;`;
+        var sql = `SELECT * FROM products WHERE idJenis = 5;`;
 
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({message : 'Database eror'}, err)
@@ -104,7 +172,7 @@ module.exports = {
 
     getGiftId : (req,res) => {
 
-        var sql = `SELECT * FROM gift WHERE id = ${sqlDB.escape(req.params.id)}`
+        var sql = `SELECT * FROM products WHERE id = ${sqlDB.escape(req.params.id)}`
 
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({ message : 'Select Database by Id Error', err})
@@ -128,10 +196,7 @@ module.exports = {
     //================================== KOPI =============================\\
 
     getKopi : (req,res) => {
-        var sql = `SELECT * FROM products p 
-                            JOIN jenis j
-                            ON j.id = p.idJenis
-                            WHERE j.id = 4;`;
+        var sql = `SELECT * FROM products WHERE idJenis = 4;`;
 
         sqlDB.query(sql, (err, result) => {
             if(err) return res.status(500).send({message : 'Database error', err})
@@ -142,7 +207,7 @@ module.exports = {
 
     getKopiId :  (req,res) => {
 
-        var sql = `SELECT * FROM kopi WHERE id = ${sqlDB.escape(req.params.id)}`
+        var sql = `SELECT * FROM products WHERE id = ${sqlDB.escape(req.params.id)}`
 
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({ message : 'Select Database by Id Error', err})
@@ -166,10 +231,7 @@ module.exports = {
     //================================== TOOL =============================\\
 
     getTool : (req,res) => {
-        var sql = `SELECT * FROM products p 
-                            JOIN jenis j
-                            ON j.id = p.idJenis
-                            WHERE j.id = 5;`;
+        var sql = `SELECT * FROM products WHERE idJenis = 3;`;
 
         sqlDB.query(sql, (err, result) => {
             if(err) return res.status(500).send({message : 'Database Error', err})
@@ -180,7 +242,7 @@ module.exports = {
 
     getToolId : (req,res) => {
 
-        var sql = `SELECT * FROM tool WHERE id = ${sqlDB.escape(req.params.id)}`
+        var sql = `SELECT * FROM products WHERE id = ${sqlDB.escape(req.params.id)}`
 
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({ message : 'Select Database by Id Error', err})

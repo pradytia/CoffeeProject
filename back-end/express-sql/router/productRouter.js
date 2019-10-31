@@ -4,6 +4,11 @@ const { productController } = require('../controller')
 
 const router = express.Router()
 
+router.get('/getproducts', productController.getProduct)
+router.get('/jenis', productController.getJenis)
+router.put('/editproduct/:id', productController.editProduct)
+router.delete('/deleteproduct/:id', productController.deleteProduct)
+router.post('/addproduct', productController.addProduct)
 router.get('/getbrewer', productController.getBrewer)
 router.get('/getbrewer/:id', productController.getBrewerId)
 router.get('/getequipment', productController.getEquipment)

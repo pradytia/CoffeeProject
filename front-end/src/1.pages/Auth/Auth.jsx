@@ -21,7 +21,6 @@ class Auth extends Component {
                 <div className="auth-content pt-4">
                     {this.state.tabMenu === 1 ? <Login/> : null}
                     {this.state.tabMenu === 2 ? <Register/> : null}
-
                 </div>
             </div>
         );

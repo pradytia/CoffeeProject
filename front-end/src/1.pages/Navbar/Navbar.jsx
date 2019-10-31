@@ -54,9 +54,13 @@ render() {
           :
 
           <MDBNavbarNav right>
+             <MDBNavItem active className='pr-3'>
+              <MDBNavLink to="/subscription">Berlangganan</MDBNavLink>
+            </MDBNavItem>
             <MDBNavItem>
-            <MDBNavLink className="waves-effect waves-light" to="/user/cart">
-              <MDBIcon icon="shopping-cart" />
+            <MDBNavLink className="waves-effect waves-light" to={`/user/cart/${this.props.user.id}`}>
+               <MDBIcon icon="shopping-cart" />
+               <span style={{padding: 7}}><sup>2</sup></span>
               </MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
@@ -71,11 +75,15 @@ render() {
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default" right>
                   <MDBDropdownItem>
-                    <MDBNavLink style={{color : 'black'}} to="/user/cart">Cart</MDBNavLink>
+                    <MDBNavLink style={{color : 'black'}} to={`/user/cart/${this.props.user.id}`}>Cart</MDBNavLink>
                  </MDBDropdownItem>
                   <MDBDropdownItem to="/history">History </MDBDropdownItem>
                   {/* <MDBDropdownItem href="#!">Something else here</MDBDropdownItem> */}
-                  <MDBDropdownItem onClick={this.props.logOutUser}>Logout</MDBDropdownItem>
+                  <MDBDropdownItem onClick={this.props.logOutUser}>
+                    <MDBNavLink to='/' style={{color : 'black'}}>
+                        Logout
+                    </MDBNavLink>
+                  </MDBDropdownItem>
                 </MDBDropdownMenu>
               </MDBDropdown>
             </MDBNavItem>

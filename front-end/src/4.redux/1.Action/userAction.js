@@ -24,7 +24,7 @@ export const checkKeepLogin = () => {
         }
         Axios.post(urlApi + '/user/keeplogin', {},  options)
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             localStorage.setItem('token', res.data.token)
             dispatch({
                 type :  LOGIN_SUCCESS,
@@ -32,7 +32,7 @@ export const checkKeepLogin = () => {
             })
         })
         .catch(err=> {
-            console.log(err.response.data)
+            // console.log(err.response.data)
             localStorage.removeItem('token')
             dispatch({
                 type : LOGOUT_USER

@@ -13,6 +13,8 @@ import Tool from '../../2.component/Tool/Tool';
 import Kopi from '../../2.component/Kopi/Kopi';
 import { connect } from 'react-redux';
 import { checkKeepLogin } from '../../4.redux/1.Action'
+import Axios from 'axios';
+import swal from 'sweetalert';
 
 
 class Home extends Component {
@@ -26,7 +28,9 @@ class Home extends Component {
         tampungGift : [],
         tampungKopi : [],
         tampungTool : [],
-        tampungPromo : []
+        tampungPromo : [],
+        qtyInput : 1,
+        loading : false
     }
 
     componentDidMount(){
@@ -35,7 +39,45 @@ class Home extends Component {
         this.getDataGift()
         this.getDataKopi()
         this.getDataTool()
-        // this.props.checkKeepLogin()
+        this.props.checkKeepLogin()
+    }
+
+
+    addToCart = (val) => {
+        this.setState({ loading : true })
+        let cartObj = {
+            quantity    : parseInt(this.state.qtyInput),
+            id_user     : this.props.user.id,
+            id_product  : val.id
+        }
+        Axios.get(urlApi + `/user/getcart?id_user=${this.props.user.id}&id_product=${val.id}`)
+        .then(res=>{
+            if(res.data.length > 0){
+                cartObj.quantity = parseInt(res.data[0].quantity) + parseInt(this.state.qtyInput)
+                this.setState({ loading : false })
+                Axios.put(urlApi + '/user/editcart/' + res.data[0].id, cartObj)
+                .then(res=>{
+                    console.log(res.data)
+                    this.setState({ loading : false })
+                    swal('Add To Cart', 'Item Added To Cart', 'success')
+
+                }).catch(err =>{
+                    console.log(err)
+                })  
+
+            }else{
+                Axios.post(urlApi + '/user/addcart' , cartObj)
+                .then(res => {
+                    console.log(res)
+                    this.setState({ loading : false })
+                    swal('Add To Cart', 'Item Added To Cart', 'success')
+                }).catch(err=>{
+                    console.log(err)
+                })
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
     }
 
     getDataBrewer = () => {
@@ -107,7 +149,10 @@ class Home extends Component {
                         harga = {val.harga}
                         deskirpsi = {val.deskirpsi}
                         ulasan = {val.ulasan}
-                        pathImg = {val.pathImg}/>
+                        pathImg = {val.pathImg}
+                        fnCart = {()=> this.addToCart(val)}
+                        username = {this.props.user.username}
+                        />
             )
         })
     }
@@ -121,8 +166,12 @@ class Home extends Component {
                          harga = {val.harga}
                          deskirpsi = {val.deskirpsi}
                          ulasan = {val.ulasan}
-                         pathImg = {val.pathImg}/>
-             )
+                         pathImg = {val.pathImg}
+                         fnCart = {()=> this.addToCart(val)}
+                         username = {this.props.user.username}
+                         />
+                         
+             ) 
          })
      }
 
@@ -135,7 +184,10 @@ class Home extends Component {
                          harga = {val.harga}
                          deskirpsi = {val.deskirpsi}
                          ulasan = {val.ulasan}
-                         pathImg = {val.pathImg}/>
+                         pathImg = {val.pathImg}
+                         fnCart = {()=> this.addToCart(val)}
+                         username = {this.props.user.username}
+                         />
              )
          })
      }
@@ -149,7 +201,10 @@ class Home extends Component {
                          harga = {val.harga}
                          deskirpsi = {val.deskirpsi}
                          ulasan = {val.ulasan}
-                         pathImg = {val.pathImg}/>
+                         pathImg = {val.pathImg}
+                         fnCart = {()=> this.addToCart(val)}
+                         username = {this.props.user.username}
+                         />
              )
          })
      }
@@ -163,7 +218,10 @@ class Home extends Component {
                          harga = {val.harga}
                          deskirpsi = {val.deskirpsi}
                          ulasan = {val.ulasan}
-                         pathImg = {val.pathImg}/>
+                         pathImg = {val.pathImg}
+                         fnCart = {()=> this.addToCart(val)}
+                         username = {this.props.user.username}
+                         />
              )
          })
      }
@@ -187,7 +245,7 @@ class Home extends Component {
                 <Iklan/>
                 <PromoHome/>
                 <div className="container mt-5  holiday" style={{fontFamily:'Apple Chancery, Comic Sans MS, Lucida Handwriting', fontStyle:'italic', fontWeight:'bold', color:'orange'}}>
-                     <h3>PRODUK REKOMENDASI</h3>
+                     <h3>COFFEE SHOP</h3>
                 </div>
 
                 <div className="admin-tab text-center d-flex mt-4">
@@ -223,5 +281,8 @@ class Home extends Component {
     }
 }
 
+const mapStateToProps = ({ user }) => {
+    return { user }
+}
 
-export default connect(null, { checkKeepLogin}) (Home);
+export default connect(mapStateToProps, { checkKeepLogin}) (Home);

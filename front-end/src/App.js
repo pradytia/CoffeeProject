@@ -31,9 +31,7 @@ import SeduhBox from './1.pages/Seduh/SeduhBox';
 import percobaan from './1.pages/Cart/percobaan1withmodal';
 import EmailWaiting from './1.pages/Auth/EmailWaiting';
 import EmailVerified from './1.pages/Auth/EmailVerified';
-import SidePanel from './1.pages/AdminDashBoard/SideNav';
-
-
+import MainMenu from './1.pages/AdminDashBoard/MainMenu';
 
 
 class App extends Component {
@@ -43,8 +41,9 @@ class App extends Component {
   // }
 
   componentDidMount(){
-         this.props.checkKeepLogin()
-       
+      if(this.props.user.username){
+        this.props.checkKeepLogin()       
+      }
   }
 
   render() {
@@ -56,7 +55,7 @@ class App extends Component {
         <Switch>
 
         <Route path='/' component={Home} exact/>
-        <Route path='/sidenav' component={SidePanel} exact/>
+        <Route path='/admindashboard' component={MainMenu} exact/>
         <Route path='/aeropress' component={Aeropress} exact/>
         <Route path='/evasolo' component={EvaSolo} exact/>
         <Route path='/mokapot' component={Mokapot} exact/>
@@ -70,7 +69,7 @@ class App extends Component {
         <Route path='/walkure' component={Walkure} exact/>
         <Route path='/seduhbox' component={SeduhBox} exact/>
         <Route path='/percobaan' component={percobaan} exact/>
-        <Route path='/user/cart' component={Cart} exact/>
+        <Route path='/user/cart/:id' component={Cart} exact/>
         <Route path='/login' component={LoginPage} exact/>
         <Route path='/register' component={Register} exact/>
         <Route path='/auth' component={Auth} />
@@ -86,7 +85,7 @@ class App extends Component {
 
         </Switch>
 
-        {/* <FooterPage/> */}
+        <FooterPage/>
       </div>
     );
   }

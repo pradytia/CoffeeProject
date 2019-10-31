@@ -29,7 +29,7 @@ class SeduhBox extends Component {
                 <div className='col-md-3 m-1 mt-3' >
 
                     <div className="">
-                        <Link to={`/${val.judul}`}>
+                        <Link to={`/${val.nama.toLowerCase()}`}>
                         <img style={{width:'100%', height : '250px', borderRadius:'5%'}} src={val.pathImg}  alt=''/>           
                         </Link>              
                     <p align="center" className='mt-3'>

@@ -16,3 +16,13 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 //======================== LOGOUT 
 export const LOGOUT_USER = 'LOGOUT_USER';
+
+//======================= CHECKOUT
+export const CHECKOUT_FAILED = 'CHECKOUT_FAILED';
+export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
+export const CHECK_DATA_CUSTOMER = 'CHECK_DATA_CUSTOMER';
+
+//====================== DATA_CUSTOMER_ADD
+export const ON_CUSTOMER_ADD_ADDRESS = 'ON_CUSTOMER_ADD_ADDRESS';
+export const ADD_DATA_CUSTOMER_FAILED = 'ADD_DATA_CUSTOMER_FAILED';
+export const ADD_DATA_CUSTOMER_SUCCESS = 'ADD_DATA_CUSTOMER_SUCCESS';  
