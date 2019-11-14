@@ -1,6 +1,7 @@
 import { CHECKOUT_FAILED,
          CHECKOUT_SUCCESS, 
-         CHECK_DATA_CUSTOMER
+         CHECK_DATA_CUSTOMER,
+         CART_QUANTITY
         } from '../type/type';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
@@ -21,12 +22,20 @@ export const checkDataCustomer = (id) => {
         }else if(res.data.length === 0){
             dispatch({
                 type : CHECKOUT_FAILED,
-                payload : 'Silahkan isi alamat terlebih dahulu'
+                payload : 'Silahkan isi alamat terlebih dahulu' 
             })
         }
     }).catch(err => {
         console.log(err)
     })
+    }
+}
+
+
+export const cartLength = (length) => {
+    return {
+        type : CART_QUANTITY,
+        payload : length
     }
 }
 

@@ -7,7 +7,7 @@ const Equipment = (props) => {
         <div className='card col-md-2 m-1 mt-3' >
 
             <div className="card-body">
-            <Link to={'/equipment-details/' + props.id}>
+            <Link to={'/product-details/' + props.id}>
             <img src={props.pathImg} className='card-img top img gambar' alt='Card'/>
             </Link>
             </div>

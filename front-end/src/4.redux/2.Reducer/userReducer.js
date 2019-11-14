@@ -6,7 +6,6 @@ const INITIAL_STATE = {
     email : '',
     status : '',
     token : '',
-    cartQty : '',
     authChecked : false 
 }
 
@@ -15,7 +14,7 @@ export default ( state = INITIAL_STATE , action) => {
         case LOGIN_SUCCESS :
             return {...action.payload, authChecked : true}
         case LOGOUT_USER : 
-            return {...INITIAL_STATE, authChecked : true}
+            return {...INITIAL_STATE, authChecked : true} 
         default :
         return state
     }

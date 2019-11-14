@@ -2,35 +2,65 @@ import React, { Component } from "react";
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
 MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon } from "mdbreact";
 import { connect } from 'react-redux';
-import { logOutUser } from '../../4.redux/1.Action';
+import { logOutUser, cartLength } from '../../4.redux/1.Action';
+// import Axios from "axios";
+// import { urlApi } from "../../3.helpers/database";
 
 
 class NavbarComp extends Component {
 
   state = {
-    isOpen: false
+    isOpen: false,
+    valueSearch : ''
 
     };
 
-toggleCollapse = () => {
-  this.setState({ isOpen: !this.state.isOpen });
-}
+    // componentDidMount(){
+    //     this.getDataCartLength()
+    // }
+
+    // getDataCartLength  = () => {
+    //   Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
+    //   .then(res => {
+    //       this.props.cartLength(res.data.length)
+    //       console.log(res.data.length)
+    //   }).catch(err => {
+    //     console.log(err)
+    //   })
+    // }
+
+  toggleCollapse = () => {
+    this.setState({ isOpen: !this.state.isOpen })
+    
+  }
+
+  onBtnEnterSearch = (e) => {
+    if(e.key === 'Enter' && this.state.valueSearch !== ''){
+        window.location = `/searchproduct?searching=${this.state.valueSearch}`
+    }
+  }
+
 
 render() {
-  
+    // console.log(this.props.user.id)
   return (
       <MDBNavbar color="default-color"  dark expand="xl">
         <MDBNavbarBrand>
-          <strong className="yellow-text bold italic">CrazyCoff</strong>
+          <MDBNavLink to="/">
+            <strong className="yellow-text bold italic">Coffee</strong>
+          </MDBNavLink>
         </MDBNavbarBrand>
         <MDBNavbarToggler onClick={this.toggleCollapse} />
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
           <MDBNavbarNav left>
-            <MDBNavItem active>
+            {/* <MDBNavItem active>
               <MDBNavLink to="/">Home</MDBNavLink>
+            </MDBNavItem> */}
+            <MDBNavItem active className='pr-3'>
+              <MDBNavLink to="/subscription">Subscription</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink to="/paketusaha">Paket usaha</MDBNavLink>
+              <MDBNavLink to="/paketusaha">Business</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
               <MDBNavLink to="#!">Coffee Shop</MDBNavLink>
@@ -43,10 +73,18 @@ render() {
             ?
 
             <MDBNavbarNav right>
-            <MDBNavItem active className='pr-3'>
-              <MDBNavLink to="/login">Berlangganan</MDBNavLink>
+             <MDBNavItem>
+                <div className="sm-form my-0 pr-4">
+                  <input 
+                      style={{backgroundColor:'white'}}
+                      onChange={(e)=> this.setState({ valueSearch : e.target.value })} 
+                      onKeyUp={this.onBtnEnterSearch}
+                      className="form-control rounded" type="text" 
+                      placeholder=" Search"
+                       />
+                </div>       
             </MDBNavItem>
-            <MDBNavItem active>
+            <MDBNavItem active className='pr-2'>
               <MDBNavLink to='/auth'>Login</MDBNavLink>
             </MDBNavItem>
           </MDBNavbarNav>
@@ -54,26 +92,40 @@ render() {
           :
 
           <MDBNavbarNav right>
-             <MDBNavItem active className='pr-3'>
-              <MDBNavLink to="/subscription">Berlangganan</MDBNavLink>
+              <MDBNavItem>
+                <div className="sm-form my-0 pr-4">
+                  <input 
+                      style={{backgroundColor:'white'}}
+                      onChange={(e)=> this.setState({ valueSearch : e.target.value })} 
+                      onKeyUp={this.onBtnEnterSearch}
+                      className="form-control rounded" type="text" 
+                      placeholder=" Search"
+                       />
+                </div>       
             </MDBNavItem>
+             {/* <MDBNavItem active className='pr-3'>
+              <MDBNavLink to="/subscription">Subscription</MDBNavLink>
+            </MDBNavItem> */}
             <MDBNavItem>
             <MDBNavLink className="waves-effect waves-light" to={`/user/cart/${this.props.user.id}`}>
                <MDBIcon icon="shopping-cart" />
-               <span style={{padding: 7}}><sup>2</sup></span>
+                  <span style={{padding: 7}}><sup>{this.props.check.cartQty}</sup></span>
               </MDBNavLink>
             </MDBNavItem>
-            <MDBNavItem>
+            {/* <MDBNavItem>
               <MDBNavLink className="waves-effect waves-light" to="">
                 Hello, {this.props.user.username}                 
               </MDBNavLink>
-            </MDBNavItem>
+            </MDBNavItem> */}
             <MDBNavItem>
               <MDBDropdown>
                 <MDBDropdownToggle nav caret>
-                  <MDBIcon icon="user" /> 
+                  <MDBIcon icon="user" className='rounded-circle'/> 
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default" right>
+                  <MDBDropdownItem>
+                      Hello, {this.props.user.username}
+                  </MDBDropdownItem>
                   <MDBDropdownItem>
                     <MDBNavLink style={{color : 'black'}} to={`/user/cart/${this.props.user.id}`}>Cart</MDBNavLink>
                  </MDBDropdownItem>
@@ -96,8 +148,8 @@ render() {
   }
 }
 
-const mapStateToProps = ({ user, loginForm }) => {
-  return { user, loginForm }
+const mapStateToProps = ({ user, loginForm, check }) => {
+  return { user, loginForm, check }
 }
 
-export default connect(mapStateToProps, { logOutUser })(NavbarComp);
+export default connect(mapStateToProps, { logOutUser, cartLength})(NavbarComp);

@@ -23,12 +23,12 @@ class Home extends Component {
     
     state =  {
         tabMenu : 1,
-        tampungBrewer : [],
-        tampungEquip : [],
-        tampungGift : [],
-        tampungKopi : [],
-        tampungTool : [],
-        tampungPromo : [],
+        listBrewer : [],
+        listEquip : [],
+        listGift : [],
+        listKopi : [],
+        listTool : [],
+        listPromo : [],
         qtyInput : 1,
         loading : false
     }
@@ -39,7 +39,7 @@ class Home extends Component {
         this.getDataGift()
         this.getDataKopi()
         this.getDataTool()
-        this.props.checkKeepLogin()
+        // this.props.checkKeepLogin()
     }
 
 
@@ -83,7 +83,7 @@ class Home extends Component {
     getDataBrewer = () => {
         axios.get(urlApi + '/product/getbrewer')
         .then(res => {
-            this.setState({tampungBrewer : res.data})
+            this.setState({listBrewer : res.data})
         })
         .catch(err => {
             console.log(err)
@@ -93,7 +93,7 @@ class Home extends Component {
     getDataEquipment = () => {
         axios.get(urlApi + '/product/getequipment')
         .then(res => {
-            this.setState({tampungEquip : res.data})
+            this.setState({listEquip : res.data})
         })
         .catch(err => {
             console.log(err)
@@ -103,7 +103,7 @@ class Home extends Component {
     getDataGift = () => {
         axios.get(urlApi + '/product/getgift')
         .then(res => {
-            this.setState({tampungGift : res.data})
+            this.setState({listGift : res.data})
         })
         .catch(err => {
             console.log(err)
@@ -113,7 +113,7 @@ class Home extends Component {
     getDataKopi = () => {
         axios.get(urlApi + '/product/getkopi')
         .then(res => {
-            this.setState({ tampungKopi : res.data})
+            this.setState({ listKopi : res.data})
         })
         .catch(err => {
             console.log(err)
@@ -123,7 +123,7 @@ class Home extends Component {
     getDataTool = () => {
         axios.get(urlApi + '/product/gettool')
         .then(res => {
-            this.setState({ tampungTool : res.data})
+            this.setState({ listTool : res.data})
         })
         .catch(err => {
             console.log(err)
@@ -133,7 +133,7 @@ class Home extends Component {
     getDataPromo = () => {
         axios.get(urlApi + '/product/getpromo')
         .then( res => {
-            this.setState({ tampungPromo : res.data })
+            this.setState({ listPromo : res.data })
         })
         .catch(err => {
             console.log(err.response.message)
@@ -141,7 +141,7 @@ class Home extends Component {
     }
 
     renderDataBrewer = () => {
-       return  this.state.tampungBrewer.map((val,idx) => {
+       return  this.state.listBrewer.map((val,idx) => {
             return (
                 <Brewer key={idx}
                         id = {val.id}
@@ -158,7 +158,7 @@ class Home extends Component {
     }
 
     renderDataEquipment = () => {
-        return  this.state.tampungEquip.map((val,idx) => {
+        return  this.state.listEquip.map((val,idx) => {
              return (
                  <Equipment key={idx}
                          id = {val.id}
@@ -176,7 +176,7 @@ class Home extends Component {
      }
 
      renderDataGift = () => {
-        return  this.state.tampungGift.map((val, idx) => {
+        return  this.state.listGift.map((val, idx) => {
              return (
                  <Gift key={idx}
                          id = {val.id}
@@ -193,7 +193,7 @@ class Home extends Component {
      }
 
      renderDataKopi = () => {
-        return  this.state.tampungKopi.map((val, idx) => {
+        return  this.state.listKopi.map((val, idx) => {
              return (
                  <Kopi key={idx}
                          id = {val.id}
@@ -210,7 +210,7 @@ class Home extends Component {
      }
 
      renderDataTool = () => {
-        return  this.state.tampungTool.map((val, idx) => {
+        return  this.state.listTool.map((val, idx) => {
              return (
                  <Tool   key={idx}
                          id = {val.id}
@@ -227,7 +227,7 @@ class Home extends Component {
      }
 
      renderDataPromo = () => {
-         return this.state.tampungPromo.map((val, idx) => {
+         return this.state.listPromo.map((val, idx) => {
              return (
                  <PromoHome key={idx}
                             nama={val.nama}
@@ -238,6 +238,7 @@ class Home extends Component {
      }
 
     render() {
+            // console.log(this.props)
         return (
             <div>
                 <CarouselPage/>

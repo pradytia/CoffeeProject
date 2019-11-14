@@ -1,6 +1,9 @@
 .subscribe{
    align-items: center;
-   width: 20%;
-   border-radius: 5%;
-   
+   /* width: 20%; */
+   border-radius: 5%; 
+   transition: 0.3s ease-in-out;
+}
+.subscribe:hover{
+   transform: scale(1.1); 
 }

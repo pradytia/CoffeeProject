@@ -24,6 +24,18 @@ module.exports = {
         })
     },
 
+    getProductId : (req,res) => {
+
+        var sql = `SELECT * FROM products
+                            WHERE id = ${sqlDB.escape(req.params.id)}`
+
+        sqlDB.query(sql, (err,result) => {
+            if(err) return res.status(500).send({ message : 'Select Database by Id Error', err})
+
+            res.status(200).send(result)
+        })
+    },
+    
     editProduct : (req,res) => {
 
         var sql = `UPDATE products SET ? WHERE id = ${sqlDB.escape(req.params.id)};`;
@@ -84,43 +96,6 @@ module.exports = {
         })
     },
 
-    getBrewerId : (req,res) => {
-
-        var sql = `SELECT * FROM products
-                            WHERE id = ${sqlDB.escape(req.params.id)}`
-
-        sqlDB.query(sql, (err,result) => {
-            if(err) return res.status(500).send({ message : 'Select Database by Id Error', err})
-
-            res.status(200).send(result)
-        })
-    },
-
-    addBrewer : (req,res) => {
-
-        var sql = `INSERT INTO brewer SET ?`;
-
-        sqlDB.query(sql, req.body, (err,result)=> {
-            if(err) res.status(500).send({ message : 'Insert into database error'}, err)
-
-            res.status(200).send(result)
-        })
-    },
-
-    editBrewer : (req,res) => {
-
-        var sql = `UPDATE brewer SET ? WHERE id = ${sqlDB.escape(req.params.id)}`
-
-        sqlDB.query(sql, req.body, (err, result) => {
-            if(err) res.status(500).send({ message : 'Insert into database error'}, err)
-
-            res.status(200).send(result)
-        })
-    },
-
-    deleteBrewer : (req,res) => {
-
-    },
 
     //================================== EQUIPMENT =============================\\
 
@@ -143,18 +118,6 @@ module.exports = {
 
             res.status(200).send(result)
         })
-    },
-
-    addEquipment : (req,res) => {
-
-    },  
-
-    editEquipment : (req,res) => {
-
-    },
-
-    deleteEquipment : (req,res) => {
-
     },
 
     //================================== GIFT =============================\\
@@ -181,18 +144,6 @@ module.exports = {
         })
     },
 
-    addGift : (req,res) => {
-
-    },
-
-    editGift : (req,res) => {
-
-    },
-
-    deleteGift : (req,res) => {
-
-    },
-
     //================================== KOPI =============================\\
 
     getKopi : (req,res) => {
@@ -214,18 +165,6 @@ module.exports = {
 
             res.status(200).send(result)
         })
-    },
-
-    addKopi : (req,res) => {
-
-    },
-
-    editKopi : (req,res) => {
-
-    },
-
-    deleteKopi : (req,res) => {
-
     },
 
     //================================== TOOL =============================\\
@@ -251,17 +190,6 @@ module.exports = {
         })
     },
 
-    addTool : (req,res) => {
-
-    },
-
-    editTool : (req,res) => {
-
-    },
-
-    deleteTool : (req,res) => {
-
-    },
 
     //================================== PAKET USAHA =============================\\
 
@@ -286,15 +214,16 @@ module.exports = {
         })
     },
 
-    addPaketUsaha : (req,res) => {
 
-    },
+    getSeacrhProduct : (req,res) => {
 
-    editPaketUsaha : (req,res) => {
+        var sql = `SELECT * FROM products WHERE nama LIKE '%${req.query.searching}%';`;
 
-    },
+        sqlDB.query(sql, (err,result) => {
+            if(err) return res.status(500).send({ message : 'Select Database by query Error', err})
 
-    deletePaketUsaha : (req,res) => {
-
+            res.status(200).send(result)
+        })
+                                
     }
 }

@@ -50,7 +50,7 @@ export const registerUser = (user) => {
                 Axios.post(urlApi + '/user/register', {
                     email : user.email,
                     password : user.password,
-                    username : user.username
+                    username : user.username 
                 })
                 .then(res => {
                     dispatch({

@@ -3,7 +3,18 @@ import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { checkKeepLogin, checkDataCustomer, addDataCustomer } from '../../4.redux/1.Action'
+import { checkKeepLogin, checkDataCustomer, addDataCustomer } from '../../4.redux/1.Action';
+import { MDBIcon } from 'mdbreact';
+import emptycart from './emptycart.png';
+import price from './price.png';
+import Countdown from 'react-countdown-now';
+import { MDBContainer, 
+  MDBBtn,
+  MDBModal, 
+  MDBModalBody, 
+  MDBModalHeader,
+  MDBModalFooter } from 'mdbreact';
+
 
 class Cart extends Component {
 
@@ -16,7 +27,10 @@ class Cart extends Component {
       alamat        : '',
       kodePos       : '',
       noHp          : '',
-      isOpen        : false
+      openBtn        : false,
+      modal         : false,
+      loading       : false,
+      message : ''
     } 
 
     componentDidMount(){
@@ -24,9 +38,14 @@ class Cart extends Component {
       this.getCart()
       this.getDataCustomer()
       this.getTotalPrice()
-      // this.props.checkKeepLogin()
     }
 
+
+    toggle = () => {
+      this.setState({
+        modal: !this.state.modal
+      });
+    }
 
     getDataCart = () => {
       
@@ -34,7 +53,7 @@ class Cart extends Component {
       .then(res => {
         // console.log(this.props.user.id)
         this.setState({ cartData :  res.data })
-        console.log(res.data)
+        // console.log(res.data)
       })
       .catch(err => {
         console.log(err)
@@ -47,7 +66,7 @@ class Cart extends Component {
       .then(res => {
         // console.log(this.props.user.id)
         this.setState({ cart :  res.data })
-        console.log(res.data)
+        // console.log(res.data)
       })
       .catch(err => {
         console.log(err)
@@ -70,10 +89,26 @@ class Cart extends Component {
       Axios.get(urlApi + '/user/totalprice')
       .then(res => {
           this.setState({ totalprice : res.data })
-          console.log(res.data)
+          // console.log(res.data)
       }).catch(err => {
         console.log(err)
       })
+    }
+
+    OnBtndeleteCart = (id) => {
+      if(window.confirm('Yakin mau hapus ?')){
+      Axios.delete(urlApi + '/user/deletecart/' + id)
+      .then(res => {
+        this.getDataCart(this.props.user.id)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
+
+
+    onShowCountDown = () => {
+      return <Countdown date={Date.now() + 1800000}/>
     }
 
     onBtnEditQty = (action, idx) => {
@@ -114,6 +149,32 @@ class Cart extends Component {
         this.props.addDataCustomer(customerObj)
     }
 
+
+    onBtnCheckOut = () => {
+  
+        Axios.post(urlApi + '/user/checkout/' + this.props.user.id)
+        .then( res  => {
+            // this.props.checkDataCustomer(this.props.user.id)
+            // this.setState({ modal : true })
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    checkDataCustomer = () => {
+      Axios.get(urlApi + '/user/datacustomer/' + this.props.user.id)
+      .then(res => {
+          if(res.data.length > 0){
+            //  this.onBtnCheckOut()
+            this.setState({ modal : true })
+          }else if(res.data.length === 0){
+             this.setState({ message : 'Silahkan isi alamat terlebih dahulu '})
+          }
+      }).catch(err => {
+          console.log(err)
+      })
+    }
+
     renderBtnClickPembayaran = () => {
         if(this.props.check.loading){
           return (
@@ -134,7 +195,8 @@ class Cart extends Component {
                   style={{width:'100%', marginTop: 30, backgroundColor:'orange', color:'white'}} 
                   className='btn'
                   value='Lanjutkan Pembayaran'
-                  onClick={()=>this.props.checkDataCustomer(this.props.user.id)}/>
+                  onClick={()=>this.checkDataCustomer()}
+                  />
     }
 
     renderBtnAddAlamat = () => {
@@ -163,7 +225,6 @@ class Cart extends Component {
     renderCartData = () => {
         return this.state.cartData.map((val,idx)=>{
           return (
-            <>
             
             <div className='row' key={idx}>
               <div className="col-6">
@@ -177,16 +238,44 @@ class Cart extends Component {
                         <button type="button" style={{width:'20%'}} onClick={()=> this.onBtnEditQty('min', idx)} className="btn btn-secondary">-</button>
                         <button type="button" style={{width:'20%'}} className="btn btn-info">{val.quantity}</button>
                         <button type="button" style={{width:'20%'}} onClick={()=> this.onBtnEditQty('max', idx)} className="btn btn-secondary">+</button>
+                        <MDBIcon icon="trash-alt" className='text-center mt-3 pl-3' onClick={()=> this.OnBtndeleteCart(val.id)}/>
                 </div>
                 <p className='harga mt-3'>Rp. {new Intl.NumberFormat('id-ID').format(val.harga * val.quantity)} </p>
+                
               </div>
-              <div className="col-2"></div>
+              {/* <div className="col-2"></div> */}
+              <MDBContainer>
+                        <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+                            <MDBModalHeader  toggle={this.toggle}>
+                                <p> Ready to payment ? </p>
+                            </MDBModalHeader>
+                            <MDBModalBody>
+                            <div className="row justify-content-center">
+                                <div className="col-3">           
+                                 <img src={price} alt='' style={{width:'100px'}}/>
+                                </div>
+                             <div className="col-5">
+                             <h5 className='mt-4 text-center'> Total Price </h5>
+                             </div>
+                             <div className="col mt-4">
+                             <h5>{this.renderTotalPrice()}</h5>
+                             </div>
+                             </div>
+                            </MDBModalBody>
+                            <MDBModalFooter>
+                            <Link to='/'  style={{textDecoration:'none'}}>
+                                <MDBBtn className="btn btn-secondary">Back To Home</MDBBtn>
+                            </Link>
+                            <Link to={`/payment/${this.props.user.id}`}  style={{textDecoration:'none', paddingRight: 40}}>
+                                <MDBBtn className="btn btn-primary" onClick={this.onBtnCheckOut}>Process</MDBBtn>
+                            </Link>
+                            </MDBModalFooter> 
+                        </MDBModal>
+                    </MDBContainer>
             
-            <p>
-            </p>  
+
          </div>
-         
-         </>
+  
           )
   
         })
@@ -196,7 +285,7 @@ class Cart extends Component {
     renderDataCustomer = () => {
        return this.state.dataCustomer.map((val,idx)=>{
          return(
-           <>
+        
               <div className="card-body" key={idx}>
                   <p>Nama : {val.namaPenerima}</p>
                   <p>Alamat : {val.alamat}</p>
@@ -204,14 +293,14 @@ class Cart extends Component {
                   <p>Nomor Handphone : {val.noHp}</p>
 
               </div>
-           </>
+           
          )
        })
     }
 
     renderTotalPrice = () => {
        return  this.state.totalprice.map((val,idx)=>{
-          return <p key={idx}>Sub Total = Rp. {new Intl.NumberFormat('id-ID').format(val.totalPrice)}</p>
+          return <p key={idx}>Rp. {new Intl.NumberFormat('id-ID').format(val.totalPrice)}</p>
         })
     }
 
@@ -237,10 +326,10 @@ class Cart extends Component {
                       <p className='text-center'>Data anda masih kosong</p>
                     }
 
-                       <input type='button' onClick={()=> this.setState({ isOpen : !this.state.isOpen })} style={{width:'90%'}} className='btn btn-block btn-success' value='Tambahkan'/>  
+                       <input type='button' onClick={()=> this.setState({ openBtn : !this.state.openBtn })} style={{width:'90%'}} className='btn btn-block btn-success' value='Tambahkan'/>  
 
                       {
-                        this.state.isOpen
+                        this.state.openBtn
                            ?
                            <>
                           <div className="card-body">
@@ -292,17 +381,28 @@ class Cart extends Component {
                     <div className='card-body'>
                         {this.renderCartData()}
                     </div>
-                      <p className='text-center text-danger'>{this.props.check.message}</p>                        
-                    <div className="card-footer" style={{backgroundColor:'white'}}>                      
-                          {this.renderTotalPrice()}
+                      <p className='text-center text-danger'>{this.state.message}</p>                        
+                    <div className="card-footer" style={{backgroundColor:'white'}}>
+                      <div className="row">
+                          <p>Sub Total</p> {this.renderTotalPrice()}
                           {this.renderBtnClickPembayaran()}
+                        </div>                      
                     </div>
+                        
                     </div>
                   </div>
               </div>
           </div>
           :
-          <div className="mt-3 alert alert-primary">Your Cart is empty, Let's <Link style={{textDecoration: 'underline', color: 'green'}} to="/">Go Shopping</Link></div>
+          <div className="text-center mt-5">
+              <img src={emptycart} alt='' style={{width:'30%'}}/>      
+              <h5 className='mt-4'>
+                Your Cart is empty,&nbsp;  
+                <Link style={{textDecoration: 'underline', color: 'green'}} to="/"> 
+                 Let's Go Shopping
+               </Link>
+              </h5>
+            </div>
           }
       </div>
     );

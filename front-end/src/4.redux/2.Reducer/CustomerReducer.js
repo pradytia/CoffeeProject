@@ -1,12 +1,14 @@
 import { CHECKOUT_FAILED, 
          CHECKOUT_SUCCESS, 
-         CHECK_DATA_CUSTOMER } from '../type/type';
+         CHECK_DATA_CUSTOMER,
+        //  CART_QUANTITY 
+        } from '../type/type';
 
 
 const INITIAL_STATE = {
     error : '',
     message : '',
-    cartLength : '',
+    cartQty : 0,
     loading : false
 }
 
@@ -19,6 +21,8 @@ export default ( state = INITIAL_STATE , action) => {
             return INITIAL_STATE
         case CHECKOUT_FAILED :
             return {...state, message : action.payload, loading : false }
+        // case CART_QUANTITY :
+        //     return {...INITIAL_STATE, cartQty : action.payload}
         default :
         return state
     }

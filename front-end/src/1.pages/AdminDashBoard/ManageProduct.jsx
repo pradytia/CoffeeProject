@@ -258,12 +258,23 @@ class ManageProduct extends Component {
                </center>
                             <div className="mt-3">
                                 <div className="row justify-content-center">
-                                    <div className="col-4">                                       
-                                          <input onClick={() => this.setState({page : this.state.page - 1})} value="<< Previous Page" type="button" className="btn btn-block btn-secondary"/>                                      
+                                    <div className="col-4">
+                                        {
+                                            this.state.page === 0
+                                            ?
+                                            null
+                                            :
+                                            <input onClick={() => this.setState({page : this.state.page - 1})} value="<< Previous Page" type="button" className="btn btn-block btn-secondary"/>                                      
+                                        }                                       
                                     </div>
                                     <div className="col-4">
-                                       
+                                        {
+                                            this.state.page < this.state.maxPage
+                                            ?
                                             <input onClick={() => this.setState({page : this.state.page + 1})} value="Next Page >>" type="button" className="btn btn-block btn-secondary"/>
+                                            :
+                                            null
+                                        }
                                       
                                     </div>
                                 </div>

@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGOUT_USER } from '../type/type';
+import { LOGIN_SUCCESS, LOGOUT_USER, CART_QUANTITY } from '../type/type';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 
@@ -22,13 +22,19 @@ export const checkKeepLogin = () => {
                 'Authorization' : `Bearer ${token}`
             }
         }
-        Axios.post(urlApi + '/user/keeplogin', {},  options)
+        Axios.post(urlApi + '/user/keeplogin',{}, options)
         .then(res => {
             // console.log(res.data)
             localStorage.setItem('token', res.data.token)
             dispatch({
                 type :  LOGIN_SUCCESS,
                 payload : res.data
+            })
+            Axios.get(urlApi + '/user/getcartw/' + res.data.id)
+            .then(res => {
+                dispatch({ type: CART_QUANTITY, payload: res.data.length })
+            }).catch(err => {
+              console.log(err)
             })
         })
         .catch(err=> {

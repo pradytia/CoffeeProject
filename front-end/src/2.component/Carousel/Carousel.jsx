@@ -5,6 +5,7 @@ import { MDBCarousel, MDBCarouselInner, MDBCarouselItem, MDBView } from
 const CarouselPage = () => {
   return (
    
+
       <MDBCarousel
         activeItem={1}
         length={3}
@@ -17,7 +18,7 @@ const CarouselPage = () => {
             <MDBView>
               <img
                 className="d-block w-100"
-                src="https://s-ecom.ottenstatic.com/original/5d95a823adea5024163420.jpg"
+                src="https://s-ecom.ottenstatic.com/original/5dbb5c0061e8b137415664.jpg"
                 alt="First slide"
               />
             </MDBView>

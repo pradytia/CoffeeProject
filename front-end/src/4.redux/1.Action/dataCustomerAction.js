@@ -18,7 +18,7 @@ export const addDataCustomer = (custObj) => {
             .then(res => {
                 console.log(res.data)
                 dispatch({ type : ADD_DATA_CUSTOMER_SUCCESS })
-                swal('Add To Cart', 'Item Added To Cart', 'success')
+                swal('Success', 'Data Berhasil Ditambahkan', 'success')
             })
             .catch(err => {
                 console.log(err)

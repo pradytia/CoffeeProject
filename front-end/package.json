@@ -8,6 +8,7 @@
     "mdbreact": "^4.21.0",
     "query-string": "^6.8.3",
     "react": "^16.10.2",
+    "react-countdown-now": "^2.1.2",
     "react-dom": "^16.10.2",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",

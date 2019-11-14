@@ -12,7 +12,7 @@ class LoginPage extends Component {
 
 
   onBtnLoginClick = () => {
-    this.props.loginUser(this.props.loginForm)
+    this.props.loginUser(this.props.loginForm) 
   }
 
   renderButtonLogin = () => {

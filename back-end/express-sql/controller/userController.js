@@ -33,12 +33,14 @@ module.exports = {
             // console.log(req.body)
             if(err) return res.status(500).send({ message : 'Insert ke Database Gagal', err1})
 
+            var token = createJWTToken({ email: req.body.email })
+            
             var mailOptions = {
                 from    : 'CrazyCoffee <sipelott@gmail.com>',
                 to      : req.body.email,
                 subject : 'Email Confirmation',
                 html    : `Verified Your Email by Click This Link
-                            <a href="http://localhost:3000/emailverified?email=${req.body.email}">Verified</a>`
+                            <a href="http://localhost:3000/emailverified?token=${token}">Verified</a>`
             }
 
             transporter.sendMail(mailOptions, (err2,result2) => {
@@ -70,19 +72,19 @@ module.exports = {
 
     confirmEmail : (req,res) => {
 
-        var sql = `UPDATE users SET status='Verified' WHERE email='${req.body.email}';`;
+        var sql = `UPDATE users SET status='Verified' WHERE email='${req.email}';`;
     
         sqlDB.query(sql, (err1,result)=>{
             if(err) return res.status(500).send({status : 'error', err1})
     
-            sql = `SELECT id,username,email,status from users WHERE email='${req.body.email}';`;
+            sql = `SELECT id,username,email,status from users WHERE email='${req.email}';`;
     
-            sqlDB.query(sql, (err2, result)=>{
+            sqlDB.query(sql, (err2, result1)=>{
                 if(err) return res.status(500).send({status : 'error', err2})
     
-                var token = createJWTToken({...result[0]})
+                var token = createJWTToken({...result1[0]})
     
-                res.status(200).send({...result[0], token })
+                res.status(200).send({...result1[0], token })
             })
         })
     },
@@ -97,7 +99,7 @@ module.exports = {
         var sql = `SELECT id, username , email, status FROM users WHERE email=${sqlDB.escape(email)} AND password=${sqlDB.escape(password)}`;
 
         sqlDB.query(sql, (err, result)=>{
-            if(err) return res.status(500).send({message : 'Database error', err})
+            if(err) return res.status(500).send({message : 'Select user by email adn password from Database error', err})
 
             //proteksi 
             if(result.length === 0){
@@ -111,21 +113,27 @@ module.exports = {
     })
     },
 
-    keepLogin :  (req,res) => {
+    // keepLogin :  (req,res) => {
+    //     // console.log(req.user)
+    //     var sql = `SELECT * FROM users where id =${req.user.id}`
+    //     sqlDB.query(sql, (err, results) => {
+    //         if(err) return res.status(500).send({ status : 'error', err })
+
+    //         if(results.length === 0) {
+    //             return res.status(500).send({ status: 'error', err: 'User Not Found!'})
+    //         }
+
+    //         const token = createJWTToken({ id: results[0].id, username: results[0].username })
+    //         res.status(200).send(
+    //             {username: results[0].username, email: results[0].email, status: results[0].status,id : results[0].id,token } )
+    //         // console.log(results)
+    //     })
+    // }
+
+    keepLogin: (req,res) => {
+        // console.log(req)
         // console.log(req.user)
-        var sql = `SELECT * FROM users where id =${req.user.id}`
-        sqlDB.query(sql, (err, results) => {
-            if(err) return res.status(500).send({ status : 'error', err })
-
-            if(results.length === 0) {
-                return res.status(500).send({ status: 'error', err: 'User Not Found!'})
-            }
-
-            const token = createJWTToken({ id: results[0].id, username: results[0].username })
-            res.status(200).send({username: results[0].username, email: results[0].email, status: results[0].status,
-                 id : results[0].id,
-                 token })
-            // console.log(results)
-        })
+        res.status(200).send({ ...req.user, token: req.token })
+        
     }
 }

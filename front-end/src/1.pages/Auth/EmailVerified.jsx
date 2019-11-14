@@ -19,11 +19,20 @@ class EmailVerified extends Component {
 
 
     confirmEmail = () => {
+        
         var params = querystring.parse(this.props.location)
 
-        Axios.post(urlApi + '/user/confirmemail', { email : params.email })
+        //tinggal penambahan express bearer token , lewat header
+        // emailnya diganti menjadi token1
+        var options = {
+            headers : {
+                'Authorization' : `Bearer ${params.token}`
+            }
+        }
+
+        Axios.post(urlApi + '/user/confirmemail', {}, options)
         .then(res => {
-            this.setState({ loading : false, message : 'Email berhasil di confirm' })
+            this.setState({ loading : false, message : 'Email berhasil di confirm' }) 
             localStorage.setItem('token', res.data.token)
             this.props.confirmLogin(res.data)
             console.log(res.data)
@@ -54,8 +63,8 @@ class EmailVerified extends Component {
         return(
             <div className='text-center text-primary pt-5'>
                 <h1>{this.state.message}</h1>
-                <img src="https://media1.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif?cid=790b761158a933e63d851be5a571971caea5ab8aa16d0811&rid=giphy.gif"
-                 alt='' style={{width:'200px'}}/>
+                {/* <img src="https://media1.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif?cid=790b761158a933e63d851be5a571971caea5ab8aa16d0811&rid=giphy.gif"
+                 alt='' style={{width:'200px'}}/> */}
             </div>
         )
     }

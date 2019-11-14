@@ -115,7 +115,7 @@ class Register extends Component {
     );
     } 
       return <Redirect to={`/waitingemail?email=${this.props.registerForm.emailSuccess}`}/>
-  }
+  } 
 }
 
 const mapStateToProps = ({ registerForm, user }) => {

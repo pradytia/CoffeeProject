@@ -7,7 +7,7 @@ const Brewer = (props) => {
         <div className='card col-md-2 m-1 mt-3' >
 
             <div className="card-body">
-            <Link to={'/brewer-details/' + props.id}>
+            <Link to={'/product-details/' + props.id}>
             <img src={props.pathImg} className='card-img top img gambar' alt='Card'/>
             </Link>
             </div>
@@ -36,7 +36,7 @@ const Brewer = (props) => {
                              <h5 type='button' onClick={props.fnCart} className="fas fa-shopping-cart keranjang" style={{color:'white'}}> </h5>
                              :
                             <Link to='/auth'>
-                                <h5 type='button' className="fas fa-shopping-cart keranjang" style={{color:'white'}}> </h5>
+                                <h5 type='button' className="fas fa-shopping-cart keranjang rounded-circle" style={{color:'white'}}> </h5>
                             </Link>
                          }                      
                      </center>

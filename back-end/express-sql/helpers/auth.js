@@ -20,5 +20,19 @@ module.exports = {
         } else {
             next(); //langsung next ke frontend
         }
+    },
+    authEmail: (req, res, next) => {
+
+        if (req.method !== "OPTIONS") {
+            jwt.verify(req.token, 'onepiece123', (error, decoded) => {
+                if (error) {
+                    return res.status(500).json({ message: "Url already expired!", error: "Url already expired!" , error});
+                }             
+                req.email = decoded.email;
+                next(); 
+            });
+        } else {
+            next(); //langsung next ke frontend
+        }
     }
 }
