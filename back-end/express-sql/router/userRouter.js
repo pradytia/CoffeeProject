@@ -11,4 +11,4 @@ router.post('/resendemail', userController.resendEmail)
 router.post('/keeplogin', auth, userController.keepLogin)
 router.post('/login', userController.login)
 
-module.exports = router
+module.exports = router 

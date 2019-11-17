@@ -132,8 +132,16 @@ module.exports = {
 
     keepLogin: (req,res) => {
         // console.log(req)
-        // console.log(req.user)
-        res.status(200).send({ ...req.user, token: req.token })
+        // console.log(req)
+        var sql = `SELECT role FROM users where id = ${req.user.id};`;
+        
+        sqlDB.query(sql,(err,result) => {
+            if(err) return res.status(500).send({ message : 'Select from db error', err})
+            
+            // console.log(result)
+            res.status(200).send({ ...req.user, role : result[0].role, token: req.token })
+        })
+
         
     }
 }

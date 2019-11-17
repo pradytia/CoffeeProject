@@ -15,20 +15,6 @@ class NavbarComp extends Component {
 
     };
 
-    // componentDidMount(){
-    //     this.getDataCartLength()
-    // }
-
-    // getDataCartLength  = () => {
-    //   Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
-    //   .then(res => {
-    //       this.props.cartLength(res.data.length)
-    //       console.log(res.data.length)
-    //   }).catch(err => {
-    //     console.log(err)
-    //   })
-    // }
-
   toggleCollapse = () => {
     this.setState({ isOpen: !this.state.isOpen })
     
@@ -42,7 +28,6 @@ class NavbarComp extends Component {
 
 
 render() {
-    // console.log(this.props.user.id)
   return (
       <MDBNavbar color="default-color"  dark expand="xl">
         <MDBNavbarBrand>
@@ -52,20 +37,37 @@ render() {
         </MDBNavbarBrand>
         <MDBNavbarToggler onClick={this.toggleCollapse} />
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-          <MDBNavbarNav left>
-            {/* <MDBNavItem active>
-              <MDBNavLink to="/">Home</MDBNavLink>
-            </MDBNavItem> */}
-            <MDBNavItem active className='pr-3'>
-              <MDBNavLink to="/subscription">Subscription</MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink to="/paketusaha">Business</MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink to="#!">Coffee Shop</MDBNavLink>
-            </MDBNavItem>
-          </MDBNavbarNav>
+             
+        {
+              this.props.user.role === 'userpremium'
+              ?
+              <MDBNavbarNav left>
+                <MDBNavItem className='pr-3'>
+                  <MDBNavLink to="/artikel">Artikel</MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem className='pr-3'>
+                  <MDBNavLink to="/video">Video</MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem>
+                  <MDBNavLink to="/paketusaha">Business</MDBNavLink>
+                </MDBNavItem>
+                {/* <MDBNavItem>
+                  <MDBNavLink to="#!">Coffee Shop</MDBNavLink>
+                </MDBNavItem> */}
+              </MDBNavbarNav>
+              :
+              <MDBNavbarNav left>
+              <MDBNavItem active className='pr-3'>
+                <MDBNavLink to="/subscription">Subscription</MDBNavLink>
+              </MDBNavItem>
+              <MDBNavItem>
+                <MDBNavLink to="/paketusaha">Business</MDBNavLink>
+              </MDBNavItem>
+              {/* <MDBNavItem>
+                <MDBNavLink to="#!">Coffee Shop</MDBNavLink>
+              </MDBNavItem> */}
+            </MDBNavbarNav>
+          }
 
           {
             this.props.user.username === ''
@@ -103,34 +105,28 @@ render() {
                        />
                 </div>       
             </MDBNavItem>
-             {/* <MDBNavItem active className='pr-3'>
-              <MDBNavLink to="/subscription">Subscription</MDBNavLink>
-            </MDBNavItem> */}
             <MDBNavItem>
             <MDBNavLink className="waves-effect waves-light" to={`/user/cart/${this.props.user.id}`}>
                <MDBIcon icon="shopping-cart" />
                   <span style={{padding: 7}}><sup>{this.props.check.cartQty}</sup></span>
               </MDBNavLink>
             </MDBNavItem>
-            {/* <MDBNavItem>
-              <MDBNavLink className="waves-effect waves-light" to="">
-                Hello, {this.props.user.username}                 
-              </MDBNavLink>
-            </MDBNavItem> */}
             <MDBNavItem>
               <MDBDropdown>
                 <MDBDropdownToggle nav caret>
-                  <MDBIcon icon="user" className='rounded-circle'/> 
+                  <MDBIcon icon="user-alt"/> 
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default" right>
                   <MDBDropdownItem>
-                      Hello, {this.props.user.username}
+                  <MDBIcon icon="user-circle"/> &nbsp; 
+                    <span style={{fontStyle:'italic'}}>{this.props.user.username}</span>
                   </MDBDropdownItem>
                   <MDBDropdownItem>
                     <MDBNavLink style={{color : 'black'}} to={`/user/cart/${this.props.user.id}`}>Cart</MDBNavLink>
                  </MDBDropdownItem>
-                  <MDBDropdownItem to="/history">History </MDBDropdownItem>
-                  {/* <MDBDropdownItem href="#!">Something else here</MDBDropdownItem> */}
+                  <MDBDropdownItem>
+                    <MDBNavLink style={{color : 'black'}}  to='/mainmenuhistory'>History</MDBNavLink>   
+                  </MDBDropdownItem>
                   <MDBDropdownItem onClick={this.props.logOutUser}>
                     <MDBNavLink to='/' style={{color : 'black'}}>
                         Logout

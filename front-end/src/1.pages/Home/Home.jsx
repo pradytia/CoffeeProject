@@ -269,7 +269,8 @@ class Home extends Component {
                 <div className="row" style={{backgroundColor:'gray'}}>
                     <div className="col-md-12">
                         <img 
-                        alt='' src='https://s-ecom.ottenstatic.com/original/5b8caa7c27a45577408011.jpg'
+                            alt='' src='https://s-ecom.ottenstatic.com/original/5b8caa7c27a45577408011.jpg'
+                            style={{maxWidth:'100%', height:'auto'}}
                       />
                     </div>
                  

@@ -48,9 +48,9 @@ class ArtikelDetails extends Component {
     }
 
     renderListArtikel = () => {
-        return this.state.listArtikel.map(val => {
+        return this.state.listArtikel.map((val,idx) => {
             return (
-                <div>
+                <div key={idx}>
                         <MDBCarousel  className="z-depth-1 mb-5">
                                 <img
                                     className="d-block w-100"
@@ -74,9 +74,9 @@ class ArtikelDetails extends Component {
     }
 
     renderListMaterial = () => {
-        return this.state.listMaterial.map(val => {
+        return this.state.listMaterial.map((val,idx) => {
             return (
-                    <div className="col-md-6">
+                    <div className="col-md-6" key={idx}>
                         <ul style={{lineHeight: 3, fontSize:'18px'}}>
                             <li>{val.bahan}</li>
                         </ul>
@@ -88,7 +88,7 @@ class ArtikelDetails extends Component {
     renderListStep = () => {
         return this.state.listStep.map((val,idx) => {
             return (
-                <div className="col-md-6">              
+                <div className="col-md-6" key={idx}>              
                     <p style={{fontSize : '18px', lineHeight: 2}}>
                          <span>{(idx + 1) + '. ' }</span>  
                          <span style={{fontStyle:'italic'}}>{val.step}</span> 

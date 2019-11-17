@@ -7,7 +7,7 @@ import { checkKeepLogin, checkDataCustomer, addDataCustomer } from '../../4.redu
 import { MDBIcon } from 'mdbreact';
 import emptycart from './emptycart.png';
 import price from './price.png';
-import Countdown from 'react-countdown-now';
+// import Countdown from 'react-countdown-now';
 import { MDBContainer, 
   MDBBtn,
   MDBModal, 
@@ -23,14 +23,15 @@ class Cart extends Component {
       cart          : [],
       totalprice    : [],
       dataCustomer  : [],
+      listTrxItem   : [],
       namaPenerima  : '',
       alamat        : '',
       kodePos       : '',
       noHp          : '',
-      openBtn        : false,
+      openBtn       : false,
       modal         : false,
       loading       : false,
-      message : ''
+      message       : ''
     } 
 
     componentDidMount(){
@@ -86,7 +87,7 @@ class Cart extends Component {
 
 
     getTotalPrice  = () => {
-      Axios.get(urlApi + '/user/totalprice')
+      Axios.get(urlApi + '/user/totalprice/' + this.props.match.params.id)
       .then(res => {
           this.setState({ totalprice : res.data })
           // console.log(res.data)
@@ -94,6 +95,10 @@ class Cart extends Component {
         console.log(err)
       })
     }
+
+    // getlistTrxItem = () => {
+    //   Axios.get(urlApi + '')
+    // }
 
     OnBtndeleteCart = (id) => {
       if(window.confirm('Yakin mau hapus ?')){
@@ -107,9 +112,9 @@ class Cart extends Component {
   }
 
 
-    onShowCountDown = () => {
-      return <Countdown date={Date.now() + 1800000}/>
-    }
+    // onShowCountDown = () => {
+    //   return <Countdown date={Date.now() + 1800000}/>
+    // }
 
     onBtnEditQty = (action, idx) => {
       let arrData = this.state.cart
@@ -151,14 +156,12 @@ class Cart extends Component {
 
 
     onBtnCheckOut = () => {
-  
-        Axios.post(urlApi + '/user/checkout/' + this.props.user.id)
-        .then( res  => {
-            // this.props.checkDataCustomer(this.props.user.id)
-            // this.setState({ modal : true })
-        }).catch(err => {
-          console.log(err)
-        })
+      Axios.post(urlApi + '/user/checkout/' + this.props.match.params.id)
+      .then( res  => {
+          window.location = `/payment/${this.props.user.id}`
+      }).catch(err => {
+        console.log(err)
+      })
     }
 
     checkDataCustomer = () => {
@@ -263,12 +266,13 @@ class Cart extends Component {
                              </div>
                             </MDBModalBody>
                             <MDBModalFooter>
+                                {/* {this.state.message} */}
                             <Link to='/'  style={{textDecoration:'none'}}>
                                 <MDBBtn className="btn btn-secondary">Back To Home</MDBBtn>
                             </Link>
-                            <Link to={`/payment/${this.props.user.id}`}  style={{textDecoration:'none', paddingRight: 40}}>
                                 <MDBBtn className="btn btn-primary" onClick={this.onBtnCheckOut}>Process</MDBBtn>
-                            </Link>
+                            {/* <Link to={`/payment/${this.props.user.id}`}  style={{textDecoration:'none', paddingRight: 40}}>
+                            </Link> */}
                             </MDBModalFooter> 
                         </MDBModal>
                     </MDBContainer>
@@ -390,7 +394,7 @@ class Cart extends Component {
                     </div>
                         
                     </div>
-                  </div>
+                  </div> 
               </div>
           </div>
           :

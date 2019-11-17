@@ -22,6 +22,9 @@ import SubscriptionDetails from './1.pages/Subscription/SubscriptionDetails';
 import ProductSearch from './1.pages/ProductSearch/ProductSearch';
 import Payment from './1.pages/History/Payment';
 import History from './1.pages/History/History';
+import CartSubscription from './1.pages/Subscription/CartSubscription';
+import MainMenuHistory from './1.pages/History/MainMenuHistory';
+import HistorySubs from './1.pages/History/HistorySubs';
 
 
 
@@ -49,7 +52,9 @@ class App extends Component {
         <Route path='/artikel' component={ArtikelMainMenu} />
         <Route path='/artikel-details/:id' component={ArtikelDetails} />
         <Route path='/payment/:id' component={Payment} exact/>
+        <Route path='/mainmenuhistory' component={MainMenuHistory} exact/>
         <Route path='/history/:id' component={History} exact/>
+        <Route path='/historysubs/:id' component={HistorySubs} exact/>
         <Route path='/login' component={LoginPage} exact/>
         <Route path='/register' component={Register} exact/>
         <Route path='/auth' component={Auth} />
@@ -60,6 +65,7 @@ class App extends Component {
         <Route path='/searchproduct' component={ProductSearch} exact/>
         <Route path='/subscription' component={Subscription} exact/>
         <Route path='/subscription-details/:id' component={SubscriptionDetails} exact/>
+        <Route path='/subscription/cart/:id' component={CartSubscription} exact/>
         </Switch>
         <FooterPage/>
       </div>

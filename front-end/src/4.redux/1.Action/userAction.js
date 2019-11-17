@@ -1,4 +1,7 @@
-import { LOGIN_SUCCESS, LOGOUT_USER, CART_QUANTITY } from '../type/type';
+import { LOGIN_SUCCESS, 
+         LOGOUT_USER, 
+        //  CART_QUANTITY 
+        } from '../type/type';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 
@@ -9,7 +12,7 @@ export const confirmLogin = (user) => {
         payload : user
     }
 }
-
+ 
 export const checkKeepLogin = () => {
 
     return (dispatch) => {
@@ -30,12 +33,12 @@ export const checkKeepLogin = () => {
                 type :  LOGIN_SUCCESS,
                 payload : res.data
             })
-            Axios.get(urlApi + '/user/getcartw/' + res.data.id)
-            .then(res => {
-                dispatch({ type: CART_QUANTITY, payload: res.data.length })
-            }).catch(err => {
-              console.log(err)
-            })
+            // Axios.get(urlApi + '/user/getcartw/' + res.data.id)
+            // .then(res => {
+            //     dispatch({ type: CART_QUANTITY, payload: res.data.length })
+            // }).catch(err => {
+            //   console.log(err)
+            // })
         })
         .catch(err=> {
             // console.log(err.response.data)

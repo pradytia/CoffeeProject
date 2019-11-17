@@ -3,13 +3,15 @@ import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { connect } from 'react-redux';
 import { checkKeepLogin } from '../../4.redux/1.Action';
+import swal from 'sweetalert';
 
 
 class SubscriptionDetails extends Component {
 
     state = {
         listPaketSubscription : [],
-        listDeskripsiSubscription : []
+        listDeskripsiSubscription : [],
+        loading : false
     }
 
 
@@ -38,9 +40,31 @@ class SubscriptionDetails extends Component {
         })
     }
 
-    // <div className="card" style={{width:'120%'}}>
-    //                             <img className="card-img-top" src={val.pathImg} alt='card' />
-    //                     </div>
+   
+    addToSubscriptionCart = () => {
+        let subsObj = {
+            id_user : this.props.user.id,
+            id_paketsubs : this.props.match.params.id,
+            quantity  : 1
+        }
+        Axios.get(urlApi + `/subscription/getcartsubs?iduser=${this.props.user.id}`)
+        .then(res => {
+            if(res.data.length > 0){
+                swal('Anda sudah berlangganan','Hanya bisa memiliki 1 paket langganan', 'info')
+            }else{
+                Axios.post(urlApi + '/subscription/addcartsubs', subsObj)
+                .then(res => {
+                    swal('Paket berhasil ditambahkan', 'Silahkan Lakukan Pembayaran', 'success')
+                    window.location = `/subscription/cart/${this.props.user.id}`
+                }).catch(err => {
+                    console.log(err)
+                })
+            }           
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     renderListPaketSubscription = () => {
         return this.state.listPaketSubscription.map(val => {
             return (
@@ -76,6 +100,7 @@ class SubscriptionDetails extends Component {
                                             value='Subscribe' 
                                             style={{color:'white', textDecoration:'none'}}
                                             className='btn btn-warning btn-block'
+                                            onClick={this.addToSubscriptionCart}
                                         />
                                         :
                                         <a href='/auth'>
@@ -83,7 +108,8 @@ class SubscriptionDetails extends Component {
                                             type='button' 
                                             value='Subscribe' 
                                             style={{color:'white', textDecoration:'none'}}
-                                            className='btn btn-warning'/>
+                                            className='btn btn-warning'
+                                            />
                                         </a>
                                    }
                                  </div>

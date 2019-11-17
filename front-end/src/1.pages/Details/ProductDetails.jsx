@@ -31,7 +31,7 @@ class ProductDetails extends Component {
         this.setState({
           modal: !this.state.modal
         });
-      }
+      } 
 
 
     addToCart  = () => {
@@ -100,7 +100,7 @@ class ProductDetails extends Component {
           
     }
 
-    renderBrewer = () => {
+    renderProduct = () => {
         return this.state.productDetails.map((val, idx)=>{
             return(
                 <div className='container mt-5 pt-3' key={idx}>
@@ -202,7 +202,7 @@ class ProductDetails extends Component {
     render() {
         return (
             <div>
-                {this.renderBrewer()}
+                {this.renderProduct()}
             </div>
         );
     }

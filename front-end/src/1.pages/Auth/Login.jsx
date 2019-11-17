@@ -3,7 +3,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBModalF
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { inputLoginEmail, inputLoginPassword, loginUser, checkKeepLogin } from '../../4.redux/1.Action';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 
 
 class LoginPage extends Component {
@@ -37,7 +37,8 @@ class LoginPage extends Component {
 
     render() {
       if(this.props.user.username !== ''){
-        return <Redirect to="/" exact /> 
+        // return <Redirect to="/" exact />
+        window.location = '/' 
       }
       
       const {email, password} = this.props.loginForm

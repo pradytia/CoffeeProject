@@ -1,20 +1,25 @@
 .gambar{
     cursor: pointer;
-    height: 150px
+    max-width: 100%;
+    height: auto;
     
 }
 
 .checked {
     color : orange;
+    max-width: 100%;
+    height: auto;
 }
 
 .harga{
     color: darkgoldenrod;
     font-weight: bolder;
+    font-size: 1.2vw;
 }
 
 .nama{
     font-style: italic;
+    font-size: 1.2vw;
 }
 
 .keranjang {
@@ -26,8 +31,13 @@
     border-top-right-radius: 100px;
     border-bottom-left-radius: 100px;
     border-bottom-right-radius: 100px;
+    max-width: 100%;
+    height: auto;
 }
 
 .bawah{
-    background-color: white
+    background-color: white;
+    max-width: 100%;
+    height: auto;
+
 }

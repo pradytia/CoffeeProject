@@ -60,6 +60,7 @@ module.exports = {
     addTocart : (req,res) => {
         var sql = `INSERT INTO cart SET ?`;
 
+        // console.log(req.body)
         sqlDB.query(sql, req.body, (err,result) => {
             if(err) return res.status(500).send({ message : 'Insert Database Error', err })
 
@@ -116,7 +117,8 @@ module.exports = {
         var sql = `SELECT sum (harga * quantity) as totalPrice
                                 FROM cart c
                                 JOIN products p
-                                ON p.id = c.id_product;`;
+                                ON p.id = c.id_product
+                                WHERE c.id_user = ${req.params.id};`;
         
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({ message : 'Select totalprice from database error', err})
@@ -154,7 +156,7 @@ module.exports = {
                           sqlDB.query(sql, (err,result1) => {
                             if(err) return res.status(500).send({ message : 'INSERT transaction_item database error', err})
                             
-                            console.log(result1)
+                            // console.log(result1)
 
                             sql = `INSERT INTO transaction_details
                                     (id_trx_item, id_product, harga , quantity)
@@ -173,7 +175,7 @@ module.exports = {
                              sqlDB.query(sql, (err, result2) => {
                                  if(err) return res.status(500).send({ message : 'insert transaction_details failed', err})
 
-                                console.log(result2)
+                                // console.log(result2)
 
                                  sql = `DELETE FROM cart where id_user = ${sqlDB.escape(req.params.id)};`;
 
@@ -185,20 +187,20 @@ module.exports = {
                                         sqlDB.query(sql, (err, result4) => {
                                             if(err) return res.status(500).send({ message : 'select id from trx item from database error', err})
 
-                                            console.log(result4)
-    
-                                            sql = `CREATE EVENT trx_${result4[0].id}
-                                                ON schedule
-                                                AT CURRENT_TIMESTAMP + INTERVAL 1 hour
-                                                DO
-                                                UPDATE transaction_item SET status = "expired", cancel = 1
-                                                WHERE userId = ${sqlDB.escape(req.params.id)};`;
-    
-                                            sqlDB.query(sql, (err, result5) => {
-                                                if(err) return res.status(500).send({ message : 'create event from database error', err})
-    
-                                                res.status(200).send(result5)
-                                        })
+                                            // console.log(result4)
+
+                                                sql = `CREATE EVENT trx_${result4[i].id}
+                                                        ON schedule
+                                                        AT CURRENT_TIMESTAMP + INTERVAL 2 minute
+                                                        DO
+                                                        UPDATE transaction_item SET status = "expired", cancel = 1
+                                                        WHERE userId = ${sqlDB.escape(req.params.id)};`;
+            
+                                                sqlDB.query(sql, (err, result5) => {
+                                                    if(err) return res.status(500).send({ message : 'create event from database error', err})
+        
+                                                    res.status(200).send(result5)
+                                            })
                                     })
                                  })
                              }) 
@@ -207,7 +209,7 @@ module.exports = {
                     })
         },
 
-        getTransactionItemId : (req,res) => {
+        getTransactionItemWithTimeStampId : (req,res) => {
 
              
             var sql = `SELECT *, timestampadd(hour,1, tgltrx) as tgltrx_expired,
@@ -224,10 +226,23 @@ module.exports = {
             })
         },
         
-        getHistoryId : (req,res) => {
+        getHistoryJoinDataCustomerId : (req,res) => {
 
             var sql = `SELECT * FROM transaction_item ti JOIN data_customer d ON d.id_user = ti.userId
                        WHERE userId = ${req.params.id};`;
+
+            sqlDB.query(sql, (err,result) => {
+                if(err) return res.status(500).send({ message : 'Select from database error' , err })
+
+                res.status(200).send(result)
+                // console.log(result)
+            })
+        },
+
+
+        getHistoryQuery : (req,res) => {
+
+            var sql = `SELECT * FROM transaction_item;`;
 
             sqlDB.query(sql, (err,result) => {
                 if(err) return res.status(500).send({ message : 'Select from database error' , err })
@@ -261,54 +276,62 @@ module.exports = {
 
         addImageUpload : (req,res) => {
 
-            const path = './images/uploadtrx';
+            const path = '/images/uploadtrx';
             const upload = uploader(path, 'trx').single('uploaduser');
 
             upload(req, res, (err) => {
-                if(err) return res.status(500).send({message : 'Image Upload Failed', err})
+                if(err) return res.status(500).send({message : 'Image Upload to api Failed', err})
 
-                console.log(req.file)
+                // console.log(req.file)
                 const data = {upload_image : path + '/' + req.file.filename}
 
-                var sql = `UPDATE transaction_item SET ? WHERE userId = ${req.params.id}; `;
+                var sql = `UPDATE transaction_item SET ? WHERE id = ${req.params.id}; `;
 
                 sqlDB.query(sql, data, (err1,result) => {
                     if(err1){
                         return (
                             res.status(500).send({message : 'Insert Image failed', err : err1}),
-                            fs.unlinkSync('./public.' + path + '/' + req.file.filename)
+                            fs.unlinkSync('./public' + path + '/' + req.file.filename)
                         )
                     } 
 
-                    sql = `UPDATE transaction_item set status ='Waiting Confirmatiin' WHERE userId =${req.params.id};`;
+                    sql = `UPDATE transaction_item set status ='Waiting Confirmation' WHERE id =${req.params.id};`;
 
                     sqlDB.query(sql, (err,result1) => {
                         if(err) return res.status(500).send({ message : 'Update status from trx item failed'})
 
-                        sql = `SELECT id from transaction_item WHERE userId = ${req.params.id};`;
+                        sql = `SELECT id from transaction_item WHERE id = ${req.params.id};`;
     
                         sqlDB.query(sql, (err,result2) => {
                             if(err) return res.status(500).send({ message : 'Select id from trx item failed'})
-    
-    
-                            sql =  `DROP EVENT trx_${result2.id}`;
+
+                            console.log(result2)
+       
+                            sql =  `DROP EVENT trx_${result2[0].id}`;
         
                             sqlDB.query(sql, (err,result3) => {
                                 if(err1) return res.status(500).send({message : 'Drop event failed', err})
 
-                                console.log(result3)
+                                // console.log(result3)
         
                                 res.status(200).send(result3)
+                      })
                     })
-
-                    })
-
-                    }) 
-                    // console.log(result)
+                  }) 
                 })
-
             }) 
-        }
+        },
+
+        updateStatusPayment : (req,res) => {
+
+            var sql = `UPDATE transaction_item SET status='Success' WHERE id=${req.params.id};`;
+
+            sqlDB.query(sql, (err,result) => {
+                if(err) return res.status(500).send({ message : 'Update status failed', err})
+
+                res.status(200).send(result)
+            })
+        },
 
     }
        

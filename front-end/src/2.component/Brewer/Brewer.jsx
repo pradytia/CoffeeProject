@@ -4,7 +4,7 @@ import '../style.css'
 
 const Brewer = (props) => {
     return (
-        <div className='card col-md-2 m-1 mt-3' >
+        <div className='card col-md-2 m-1 mt-3'> 
 
             <div className="card-body">
             <Link to={'/product-details/' + props.id}>
@@ -19,13 +19,13 @@ const Brewer = (props) => {
                 <span className='harga'>Rp. {new Intl.NumberFormat('id-ID').format(props.harga)}</span>
             </p>
                 
-                <div className=''>
+                <div style={{fontSize:'1vw'}}>
                 <span className='fa fa-star checked'></span>
                 <span className='fa fa-star checked'></span>
                 <span className='fa fa-star checked'></span>
                 <span className='fa fa-star checked'></span>
                 <span className='fa fa-star checked'></span> &nbsp;
-                <span style={{fontSize:'12px'}}>{props.ulasan}</span>                   
+                <span style={{fontSize:'1vw'}}>{props.ulasan}</span>                   
                 </div>          
             </div>
             <div className="">

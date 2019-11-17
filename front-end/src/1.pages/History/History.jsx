@@ -72,7 +72,7 @@ class History extends Component {
         return (
             <div className='container mt-3'>
                 <center>
-                    <img src={historyImage} style={{width :'20%'}} alt=''/>
+                    <img src={historyImage} style={{width :'25%'}} alt=''/>
                     <span style={{fontSize:'35px', fontStyle:'italic', fontWeight:'bold'}}>My  History </span>
                     <MDBTable className='mt-5 pb-5'>
                         <MDBTableHead color="primary-color" textWhite>
@@ -81,7 +81,7 @@ class History extends Component {
                                 <th>Nama Penerima</th>
                                 <th>Alamat</th>
                                 <th>Total Price</th>
-                                <th>Status</th>
+                                <th>Status</th> 
                                 <th>Tanggal Transaksi</th>
                             </tr>
                         </MDBTableHead >
@@ -96,7 +96,7 @@ class History extends Component {
                     this.state.openTable
                     ?
                 <MDBTable className='mt-5 pb-5'>
-                        <MDBTableHead color="primary-color" textWhite>
+                        <MDBTableHead color="success-color" textWhite>
                             <tr>
                                 <th>No</th>
                                 <th>Nama Product</th>

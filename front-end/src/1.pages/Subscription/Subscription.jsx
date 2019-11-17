@@ -26,7 +26,7 @@ class Subscription extends Component {
             console.log(err)
         })
     }
-
+ 
     getListDeskripsiSubscription = () => {
         Axios.get(urlApi + '/subscription/deskripsi')
         .then(res => {

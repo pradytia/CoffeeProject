@@ -31,7 +31,7 @@ export const loginUser = (user) => {
         if(user.email !== '' && user.password){
             Axios.post(urlApi + '/user/login', {
                 email : user.email,
-                password : user.password
+                password : user.password 
             })
             .then(res => {
                 // console.log(res.data)
