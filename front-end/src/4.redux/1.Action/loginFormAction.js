@@ -25,8 +25,8 @@ export const inputLoginPassword = (password) => {
 export const loginUser = (user) => {
     return (dispatch) => {
         dispatch({
-            type : ON_USER_LOGIN 
-        })
+            type : ON_USER_LOGIN  
+        }) 
 
         if(user.email !== '' && user.password){
             Axios.post(urlApi + '/user/login', {

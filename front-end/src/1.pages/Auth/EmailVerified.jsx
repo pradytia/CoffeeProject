@@ -4,6 +4,7 @@ import { urlApi } from '../../3.helpers/database';
 import { connect } from 'react-redux';
 import { confirmLogin } from '../../4.redux/1.Action';
 import  querystring  from 'query-string';
+import email from './emailsuccess.png'
 
 class EmailVerified extends Component {
 
@@ -20,17 +21,20 @@ class EmailVerified extends Component {
 
     confirmEmail = () => {
         
-        var params = querystring.parse(this.props.location)
+        var params = querystring.parse(this.props.location.search)
 
         //tinggal penambahan express bearer token , lewat header
         // emailnya diganti menjadi token1
+        // console.log(params)
+        console.log(this.props.location)
+       
         var options = {
             headers : {
                 'Authorization' : `Bearer ${params.token}`
             }
         }
 
-        Axios.post(urlApi + '/user/confirmemail', {}, options)
+        Axios.post(urlApi + '/user/confirmemail', {}, options) 
         .then(res => {
             this.setState({ loading : false, message : 'Email berhasil di confirm' }) 
             localStorage.setItem('token', res.data.token)
@@ -62,9 +66,8 @@ class EmailVerified extends Component {
         }
         return(
             <div className='text-center text-primary pt-5'>
-                <h1>{this.state.message}</h1>
-                {/* <img src="https://media1.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif?cid=790b761158a933e63d851be5a571971caea5ab8aa16d0811&rid=giphy.gif"
-                 alt='' style={{width:'200px'}}/> */}
+                <img src={email} style={{width:'30%'}} alt=''/>
+                <h3 className='mt-5'>{this.state.message}</h3>
             </div>
         )
     }

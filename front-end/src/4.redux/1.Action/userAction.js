@@ -18,7 +18,7 @@ export const checkKeepLogin = () => {
     return (dispatch) => {
 
         const token = localStorage.getItem('token')
-        // console.log(token)
+        console.log(token)
 
         var options = {
             headers : {
@@ -39,7 +39,7 @@ export const checkKeepLogin = () => {
             // }).catch(err => {
             //   console.log(err)
             // })
-        })
+        }) 
         .catch(err=> {
             // console.log(err.response.data)
             localStorage.removeItem('token')

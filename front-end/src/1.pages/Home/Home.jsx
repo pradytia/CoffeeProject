@@ -12,14 +12,13 @@ import Gift from '../../2.component/Gift/Gift';
 import Tool from '../../2.component/Tool/Tool';
 import Kopi from '../../2.component/Kopi/Kopi';
 import { connect } from 'react-redux';
-import { checkKeepLogin } from '../../4.redux/1.Action'
 import Axios from 'axios';
 import swal from 'sweetalert';
 
 
 class Home extends Component {
 
-   
+    
     
     state =  {
         tabMenu : 1,
@@ -39,7 +38,6 @@ class Home extends Component {
         this.getDataGift()
         this.getDataKopi()
         this.getDataTool()
-        // this.props.checkKeepLogin()
     }
 
 
@@ -287,4 +285,4 @@ const mapStateToProps = ({ user }) => {
     return { user }
 }
 
-export default connect(mapStateToProps, { checkKeepLogin}) (Home);
+export default connect(mapStateToProps) (Home);

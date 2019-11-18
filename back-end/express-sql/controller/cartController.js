@@ -189,7 +189,7 @@ module.exports = {
 
                                             // console.log(result4)
 
-                                                sql = `CREATE EVENT trx_${result4[i].id}
+                                                sql = `CREATE EVENT trx_${result4.length}
                                                         ON schedule
                                                         AT CURRENT_TIMESTAMP + INTERVAL 2 minute
                                                         DO
@@ -300,14 +300,15 @@ module.exports = {
                     sqlDB.query(sql, (err,result1) => {
                         if(err) return res.status(500).send({ message : 'Update status from trx item failed'})
 
-                        sql = `SELECT id from transaction_item WHERE id = ${req.params.id};`;
+                        sql = `SELECT id from transaction_item WHERE userId = 
+                                (SELECT userId from transaction_item WHERE id = ${req.params.id});`;
     
                         sqlDB.query(sql, (err,result2) => {
                             if(err) return res.status(500).send({ message : 'Select id from trx item failed'})
 
-                            console.log(result2)
+                            // console.log(result2)
        
-                            sql =  `DROP EVENT trx_${result2[0].id}`;
+                            sql =  `DROP EVENT trx_${result2.length}`;
         
                             sqlDB.query(sql, (err,result3) => {
                                 if(err1) return res.status(500).send({message : 'Drop event failed', err})

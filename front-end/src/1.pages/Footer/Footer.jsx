@@ -1,5 +1,5 @@
 import React from "react";
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
+import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBIcon } from "mdbreact";
 import './footer.css'
 
 const FooterPage = () => {
@@ -8,34 +8,33 @@ const FooterPage = () => {
       <MDBContainer  className="text-center text-md-left">
         <MDBRow>
           <MDBCol md="6">
-            <h5 className="title">Footer Content</h5>
-            <p>
-              Here you can use rows and columns here to organize your footer
-              content.
+            <h5 className="title mt-5">COFFEE SHOP</h5>
+            <p style={{fontStyle:'italic'}}>
+              Good communication starts from coffee
             </p>
           </MDBCol>
           <MDBCol md="6">
-            <h5 className="title">Links</h5>
-            <ul>
+            <h5 className="title">Contact Us</h5>
+            <ul style={{lineHeight: 3, fontSize:'15px'}}>
               <li className="list-unstyled">
-                <a href="#!">Link 1</a>
+                <MDBIcon fab icon="facebook" />&nbsp; Coffe@gmail.com
               </li>
               <li className="list-unstyled">
-                <a href="#!">Link 2</a>
+                <MDBIcon fab icon="whatsapp" />&nbsp; 0876632616111
               </li>
               <li className="list-unstyled">
-                <a href="#!">Link 3</a>
+                <MDBIcon fab icon="instagram" />&nbsp; CrazyCoffee
               </li>
-              <li className="list-unstyled">
-                <a href="#!">Link 4</a>
-              </li>
+              {/* <li className="list-unstyled">
+                <a href="#!">Email</a>
+              </li> */}
             </ul>
           </MDBCol>
         </MDBRow>
       </MDBContainer>
       <div className="footer-copyright text-center py-3">
         <MDBContainer fluid>
-          &copy; {new Date().getFullYear()} Copyright: <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>
+          &copy; {new Date().getFullYear()} Copyright: <a href="https://localhost:3000"> COFFEE ALL RIGHTS RESERVED </a>
         </MDBContainer>
       </div>
     </MDBFooter>

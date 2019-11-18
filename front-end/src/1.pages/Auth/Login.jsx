@@ -8,8 +8,6 @@ import { inputLoginEmail, inputLoginPassword, loginUser, checkKeepLogin } from '
 
 class LoginPage extends Component {
 
-  
-
 
   onBtnLoginClick = () => {
     this.props.loginUser(this.props.loginForm) 
@@ -63,7 +61,7 @@ class LoginPage extends Component {
                 validate
                 error="wrong"
                 success="right"
-              />
+              /> 
               <MDBInput
                 label="Your password"
                 group

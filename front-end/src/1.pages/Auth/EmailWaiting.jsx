@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import  querystring  from 'query-string';
+import email from './email.png'
 
 class EmailWaiting extends Component {
 
@@ -23,13 +24,14 @@ class EmailWaiting extends Component {
 
     render() {
         return (
-            <div className='text-center'>
-                <h1>Tolong Periksa Email Anda Untuk Konfirmasi!</h1>
-                <h4>Klik Button Dibawah Bila Tidak Menerima Email</h4>
-                <input type='button' onClick={this.onBtnResendEmailClick} value='Resend Email' className='btn btn-primary mt-5'/>              
+            <div className='text-center mt-5'>
+                <img src={email} style={{width:'30%'}} alt=''/>
+                <h4>Silahkan Check Email Anda Untuk Konfirmasi</h4>
+                <p className='mt-5' style={{fontStyle:'italic'}}>Klik Button Dibawah Bila Tidak Menerima Email</p>
+                <input type='button' onClick={this.onBtnResendEmailClick} value='Resend Email' className='btn btn-primary mt-2'/>              
             </div>
         );
     }
-}
+} 
 
 export default EmailWaiting;

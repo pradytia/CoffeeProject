@@ -74,13 +74,13 @@ module.exports = {
 
         var sql = `UPDATE users SET status='Verified' WHERE email='${req.email}';`;
     
-        sqlDB.query(sql, (err1,result)=>{
-            if(err) return res.status(500).send({status : 'error', err1})
+        sqlDB.query(sql, (err,result)=>{
+            if(err) return res.status(500).send({status : 'error', err})
     
             sql = `SELECT id,username,email,status from users WHERE email='${req.email}';`;
     
             sqlDB.query(sql, (err2, result1)=>{
-                if(err) return res.status(500).send({status : 'error', err2})
+                if(err2) return res.status(500).send({status : 'error', err2})
     
                 var token = createJWTToken({...result1[0]})
     
@@ -108,27 +108,12 @@ module.exports = {
 
             var token = createJWTToken({id: result[0].id, username: result[0].username })
 
+        // console.log(result)
+        // console.log(token)
             res.status(200).send({id: result[0].id, username: result[0].username, email: result[0].email, status: result[0].status, token })
             
     })
     },
-
-    // keepLogin :  (req,res) => {
-    //     // console.log(req.user)
-    //     var sql = `SELECT * FROM users where id =${req.user.id}`
-    //     sqlDB.query(sql, (err, results) => {
-    //         if(err) return res.status(500).send({ status : 'error', err })
-
-    //         if(results.length === 0) {
-    //             return res.status(500).send({ status: 'error', err: 'User Not Found!'})
-    //         }
-
-    //         const token = createJWTToken({ id: results[0].id, username: results[0].username })
-    //         res.status(200).send(
-    //             {username: results[0].username, email: results[0].email, status: results[0].status,id : results[0].id,token } )
-    //         // console.log(results)
-    //     })
-    // }
 
     keepLogin: (req,res) => {
         // console.log(req)

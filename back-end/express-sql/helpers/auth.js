@@ -13,21 +13,24 @@ module.exports = {
                     // success = false;
                     return res.status(500).json({ message: "User not authorized.", error: "User not authorized." , error});
                 }
-                // console.log(decoded)
+                console.log(decoded)
                 req.user = decoded;
+                // console.log(req.user)
                 next(); //ke function (req,res) di back end paramater 3
             });
         } else {
             next(); //langsung next ke frontend
         }
     },
+
     authEmail: (req, res, next) => {
 
         if (req.method !== "OPTIONS") {
             jwt.verify(req.token, 'onepiece123', (error, decoded) => {
                 if (error) {
                     return res.status(500).json({ message: "Url already expired!", error: "Url already expired!" , error});
-                }             
+                } 
+                // console.log(decoded)            
                 req.email = decoded.email;
                 next(); 
             });

@@ -4,7 +4,6 @@ import waiting from './waiting.png';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { connect } from 'react-redux';
-import { checkKeepLogin }  from  '../../4.redux/1.Action';
 import empty from './emptypayment.png';
 import swal from 'sweetalert';
 
@@ -41,8 +40,9 @@ class Payment extends Component {
             }
         }
         
-        formData.append('uploaduser', this.state.imageUpload[0])
+        formData.append('uploaduser',this.state.imageUpload[0])
         // console.log(this.state.imageUpload[0])
+        // console.log(formData)
 
         Axios.put(urlApi + '/user/uploadimage/' + id, formData, options)
         .then(res => {
@@ -70,7 +70,7 @@ class Payment extends Component {
                             <div>
                                 <p style={{color:'gray'}}>Sisa waktu pembayaran anda</p>
                                 <span style={{fontSize:'60px'}} key={idx}>
-                                <Countdown date={Date.now() + val.timediff}/>
+                                    <Countdown date={Date.now() + val.timediff}/>
                                 </span>
                             </div>
                             <div className='mt-5'>
@@ -167,4 +167,4 @@ const mapStateToProps = ({ user }) => {
 }
 
 
-export default connect(mapStateToProps, { checkKeepLogin })(Payment);
+export default connect(mapStateToProps)(Payment);

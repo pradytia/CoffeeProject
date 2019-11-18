@@ -30,12 +30,7 @@ import HistorySubs from './1.pages/History/HistorySubs';
 
 class App extends Component {
 
-  // state = {
-  //   loading : true
-  // }
-
   componentDidMount(){
-      // var token  =  localStorage.getItem('token')
         this.props.checkKeepLogin()           
   }
 

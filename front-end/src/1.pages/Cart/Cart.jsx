@@ -3,11 +3,10 @@ import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { checkKeepLogin, checkDataCustomer, addDataCustomer } from '../../4.redux/1.Action';
+import { checkDataCustomer, addDataCustomer } from '../../4.redux/1.Action';
 import { MDBIcon } from 'mdbreact';
 import emptycart from './emptycart.png';
 import price from './price.png';
-// import Countdown from 'react-countdown-now';
 import { MDBContainer, 
   MDBBtn,
   MDBModal, 
@@ -23,7 +22,6 @@ class Cart extends Component {
       cart          : [],
       totalprice    : [],
       dataCustomer  : [],
-      listTrxItem   : [],
       namaPenerima  : '',
       alamat        : '',
       kodePos       : '',
@@ -48,6 +46,7 @@ class Cart extends Component {
       });
     }
 
+    //untuk show di card cart
     getDataCart = () => {
       
       Axios.get(urlApi + '/user/getcartId/' + this.props.match.params.id)
@@ -61,6 +60,7 @@ class Cart extends Component {
       })
     }
 
+    //untuk + - di card cart
     getCart = () => {
       
       Axios.get(urlApi + '/user/getcartw/' + this.props.match.params.id)
@@ -96,9 +96,6 @@ class Cart extends Component {
       })
     }
 
-    // getlistTrxItem = () => {
-    //   Axios.get(urlApi + '')
-    // }
 
     OnBtndeleteCart = (id) => {
       if(window.confirm('Yakin mau hapus ?')){
@@ -110,11 +107,6 @@ class Cart extends Component {
       })
     }
   }
-
-
-    // onShowCountDown = () => {
-    //   return <Countdown date={Date.now() + 1800000}/>
-    // }
 
     onBtnEditQty = (action, idx) => {
       let arrData = this.state.cart
@@ -195,7 +187,7 @@ class Cart extends Component {
           )
         }
         return  <input type='button' 
-                  style={{width:'100%', marginTop: 30, backgroundColor:'orange', color:'white'}} 
+                  style={{width:'100%', backgroundColor:'orange', color:'white'}} 
                   className='btn'
                   value='Lanjutkan Pembayaran'
                   onClick={()=>this.checkDataCustomer()}
@@ -220,9 +212,11 @@ class Cart extends Component {
           )
         }
 
-      return  <div className="card-footer" style={{backgroundColor:'white'}}>
-              <input type='button' onClick={this.onBtnClickAlamat} style={{width:'90%'}} className='btn btn-block btn-success' value='Tambahkan'/>
+      return ( 
+              <div className="card-footer" style={{backgroundColor:'white'}}>
+                <input type='button' onClick={this.onBtnClickAlamat} style={{width:'90%'}} className='btn btn-block btn-success' value='Tambahkan'/>
               </div>
+      )
     }
 
     renderCartData = () => {
@@ -236,17 +230,16 @@ class Cart extends Component {
             </div>
               </div>
               <div className="col-6">
-                <p className="nama" style={{fontWeight: 'bold'}}>{val.nama}</p>
+                <p className="nama pl-3" style={{fontWeight: 'bold'}}>{val.nama}</p>
                 <div className="btn-group">
                         <button type="button" style={{width:'20%'}} onClick={()=> this.onBtnEditQty('min', idx)} className="btn btn-secondary">-</button>
                         <button type="button" style={{width:'20%'}} className="btn btn-info">{val.quantity}</button>
                         <button type="button" style={{width:'20%'}} onClick={()=> this.onBtnEditQty('max', idx)} className="btn btn-secondary">+</button>
                         <MDBIcon icon="trash-alt" className='text-center mt-3 pl-3' onClick={()=> this.OnBtndeleteCart(val.id)}/>
                 </div>
-                <p className='harga mt-3'>Rp. {new Intl.NumberFormat('id-ID').format(val.harga * val.quantity)} </p>
+                <p className='harga mt-3 text-center pr-4'>Rp. {new Intl.NumberFormat('id-ID').format(val.harga * val.quantity)} </p>
                 
               </div>
-              {/* <div className="col-2"></div> */}
               <MDBContainer>
                         <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
                             <MDBModalHeader  toggle={this.toggle}>
@@ -266,13 +259,10 @@ class Cart extends Component {
                              </div>
                             </MDBModalBody>
                             <MDBModalFooter>
-                                {/* {this.state.message} */}
                             <Link to='/'  style={{textDecoration:'none'}}>
                                 <MDBBtn className="btn btn-secondary">Back To Home</MDBBtn>
                             </Link>
                                 <MDBBtn className="btn btn-primary" onClick={this.onBtnCheckOut}>Process</MDBBtn>
-                            {/* <Link to={`/payment/${this.props.user.id}`}  style={{textDecoration:'none', paddingRight: 40}}>
-                            </Link> */}
                             </MDBModalFooter> 
                         </MDBModal>
                     </MDBContainer>
@@ -295,7 +285,6 @@ class Cart extends Component {
                   <p>Alamat : {val.alamat}</p>
                   <p>KodePos : {val.kodePos}</p>
                   <p>Nomor Handphone : {val.noHp}</p>
-
               </div>
            
          )
@@ -379,7 +368,7 @@ class Cart extends Component {
                 <div className="col-4 mt-4">
                   <div className="row">
                     <div className="col card">
-                    <div className="card-header" style={{backgroundColor:'white', fontWeight:'bold'}}>
+                    <div className="card-header text-center" style={{backgroundColor:'white', fontWeight:'bold'}}>
                         Ringkasan Belanja
                     </div>
                     <div className='card-body'>
@@ -387,8 +376,11 @@ class Cart extends Component {
                     </div>
                       <p className='text-center text-danger'>{this.state.message}</p>                        
                     <div className="card-footer" style={{backgroundColor:'white'}}>
-                      <div className="row">
-                          <p>Sub Total</p> {this.renderTotalPrice()}
+                      <div className="row"> 
+                          <div className="col">
+                              <p style={{fontWeight:'bold'}}>Sub Total</p>&nbsp;
+                          </div>
+                          <p className='pl-5' style={{fontWeight:'bold', color:'blue'}}>{this.renderTotalPrice()}</p>
                           {this.renderBtnClickPembayaran()}
                         </div>                      
                     </div>
@@ -417,4 +409,4 @@ const mapStateToProps = ({ user, check, address }) => {
   return { user, check, address }
 }
 
-export default connect(mapStateToProps, { checkKeepLogin, checkDataCustomer, addDataCustomer }) (Cart);
+export default connect(mapStateToProps, { checkDataCustomer, addDataCustomer }) (Cart);

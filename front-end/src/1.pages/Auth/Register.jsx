@@ -16,7 +16,7 @@ class Register extends Component {
   onBtnRegisterClick = () => {
     this.props.registerUser(this.props.registerForm)
   }
-
+ 
   renderButtonRegister = () => {
     if(this.props.registerForm.loading){
         return (

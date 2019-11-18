@@ -3,7 +3,6 @@ import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { checkKeepLogin } from '../../4.redux/1.Action';
 import { MDBContainer, 
         MDBBtn,
         MDBModal, 
@@ -212,4 +211,4 @@ const mapStateToProps = ({ user }) => {
     return { user }
 }
 
-export default connect(mapStateToProps, { checkKeepLogin }) (ProductDetails);
+export default connect(mapStateToProps) (ProductDetails);

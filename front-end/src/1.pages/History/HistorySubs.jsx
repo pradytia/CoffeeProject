@@ -30,7 +30,7 @@ class HistorySubs extends Component {
                 <tr key={idx}>
                     <td>{idx + 1}</td>
                     <td>{val.deskripsi}</td>
-                    <td>Rp. {new Intl.NumberFormat('id-ID').format(val.totalPrice)}</td>
+                    <td>Rp. {new Intl.NumberFormat('id-ID').format(val.totalprice)}</td>
                     <td>{val.status}</td>
                     <td>{val.tgltrx}</td>
                 </tr>
