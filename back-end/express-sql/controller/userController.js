@@ -126,7 +126,41 @@ module.exports = {
             // console.log(result)
             res.status(200).send({ ...req.user, role : result[0].role, token: req.token })
         })
+    },
 
-        
+    countTotalUser : (req,res) => {
+
+        var sql = `SELECT count(*) as total from users;`;
+
+        sqlDB.query(sql,(err,result) => {
+            if(err) return res.status(500).send({ message : 'Select from db error', err})
+            
+            // console.log(result)
+            res.status(200).send(result)
+        })
+    },
+
+    countTotalUserSubs : (req,res) => {
+
+        var sql = `SELECT count(*) as total from users WHERE role='userpremium';`;
+
+        sqlDB.query(sql,(err,result) => {
+            if(err) return res.status(500).send({ message : 'Select from db error', err})
+            
+            // console.log(result)
+            res.status(200).send(result)
+        })
+    },
+
+    countTotalTrx : (req,res) => {
+
+        var sql = `SELECT count(*) as total from transaction_item;`;
+
+        sqlDB.query(sql,(err,result) => {
+            if(err) return res.status(500).send({ message : 'Select from db error', err})
+            
+            // console.log(result)
+            res.status(200).send(result)
+        })
     }
 }

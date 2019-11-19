@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { checkKeepLogin } from './4.redux/1.Action';
+import { checkKeepLogin, cartLength  } from './4.redux/1.Action';
 import NavbarComp from './1.pages/Navbar/Navbar';
 import Home from './1.pages/Home/Home';
 import FooterPage from './1.pages/Footer/Footer';
@@ -27,12 +27,12 @@ import MainMenuHistory from './1.pages/History/MainMenuHistory';
 import HistorySubs from './1.pages/History/HistorySubs';
 
 
-
 class App extends Component {
 
   componentDidMount(){
-        this.props.checkKeepLogin()           
+        this.props.checkKeepLogin()    
   }
+
 
   render() {
     
@@ -72,6 +72,6 @@ const mapStateToProps = ({ user }) => {
   return { user }
 }
 
-export default connect(mapStateToProps, { checkKeepLogin })(App);
+export default connect(mapStateToProps, { checkKeepLogin, cartLength })(App);
 
 

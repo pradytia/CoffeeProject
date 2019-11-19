@@ -91,6 +91,7 @@ module.exports = {
 
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({message : 'database error', err})
+            // console.log(result)
 
             res.status(200).send(result)
         })
@@ -194,7 +195,7 @@ module.exports = {
     //================================== PAKET USAHA =============================\\
 
     getPaketUsaha : (req,res) => {
-        var sql = `SELECT * FROM paketusaha`
+        var sql = `SELECT * FROM products where idJenis = 6`
 
         sqlDB.query(sql, (err, result) => {
             if(err) return res.status(500).send({ message : 'Database Error' , err})
@@ -205,7 +206,7 @@ module.exports = {
 
     getPaketusahaId : (req,res) => {
 
-        var sql = `SELECT * FROM paketusaha WHERE id = ${sqlDB.escape(req.params.id)}`
+        var sql = `SELECT * FROM products WHERE id = ${sqlDB.escape(req.params.id)}`
 
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({ message : 'Select Database by Id Error', err})

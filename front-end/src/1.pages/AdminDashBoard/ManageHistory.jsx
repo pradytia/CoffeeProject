@@ -19,7 +19,7 @@ class ManageHistory extends Component {
         Axios.get(urlApi + '/user/history')
         .then(res => {
             this.setState({ listHistoryUser : res.data })
-            console.log(res.data)
+            // console.log(res.data)
         }).catch(err => {
             console.log(err)
         })
@@ -30,7 +30,7 @@ class ManageHistory extends Component {
         Axios.put(urlApi + '/user/updatestatus/' + id)
         .then(res =>{
             this.getListHistoryUser()
-            console.log(res.data)
+            // console.log(res.data)
         }).catch(err => {
             console.log(err)
         })

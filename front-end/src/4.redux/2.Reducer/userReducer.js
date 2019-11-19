@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     authChecked : false 
 }
 
-export default ( state = INITIAL_STATE , action) => {
+export default (state = INITIAL_STATE , action) => {
     switch(action.type){
         case LOGIN_SUCCESS :
             return {...action.payload, authChecked : true}

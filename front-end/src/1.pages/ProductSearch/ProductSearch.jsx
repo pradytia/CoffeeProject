@@ -123,10 +123,13 @@ class ProductSearch extends Component {
                          this.renderListSearchProduct()
                     :
                     <div className='text-center'> 
-                    <img src={notfound} alt='' style={{width:'30%'}}/>
-                        <h4 className='text-danger'>
-                             Product yang anda cari tidak ada. Silahkan coba lagi 
+                    <img src={notfound} alt='' style={{width:'35%'}}/>
+                    <h4 className='text-danger mt-5'>
+                             Upss !!!
                         </h4>
+                        <h5 className='text-danger'>
+                             Product yang anda cari tidak ada. Silahkan coba lagi 
+                        </h5>
                     </div>
                 }
             </div>

@@ -12,6 +12,7 @@ import Gift from '../../2.component/Gift/Gift';
 import Tool from '../../2.component/Tool/Tool';
 import Kopi from '../../2.component/Kopi/Kopi';
 import { connect } from 'react-redux';
+import { cartLength } from '../../4.redux/1.Action';
 import Axios from 'axios';
 import swal from 'sweetalert';
 
@@ -47,7 +48,7 @@ class Home extends Component {
             quantity    : parseInt(this.state.qtyInput),
             id_user     : this.props.user.id,
             id_product  : val.id
-        }
+        } 
         Axios.get(urlApi + `/user/getcart?id_user=${this.props.user.id}&id_product=${val.id}`)
         .then(res=>{
             if(res.data.length > 0){
@@ -58,7 +59,8 @@ class Home extends Component {
                     console.log(res.data)
                     this.setState({ loading : false })
                     swal('Add To Cart', 'Item Added To Cart', 'success')
-
+                    // this.props.cartLength(this.props.user.id)
+                    this.checkCartLength()
                 }).catch(err =>{
                     console.log(err)
                 })  
@@ -69,6 +71,8 @@ class Home extends Component {
                     console.log(res)
                     this.setState({ loading : false })
                     swal('Add To Cart', 'Item Added To Cart', 'success')
+                    // this.props.cartLength(this.props.user.id)
+                    this.checkCartLength()
                 }).catch(err=>{
                     console.log(err)
                 })
@@ -82,6 +86,7 @@ class Home extends Component {
         axios.get(urlApi + '/product/getbrewer')
         .then(res => {
             this.setState({listBrewer : res.data})
+            console.log(res)
         })
         .catch(err => {
             console.log(err)
@@ -135,6 +140,17 @@ class Home extends Component {
         })
         .catch(err => {
             console.log(err.response.message)
+        })
+    }
+
+
+    checkCartLength = () => {
+        Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
+        .then(res => {
+            this.props.cartLength(res.data.length)
+            console.log(res.data.length)
+        }).catch(err => {
+            console.log(err)
         })
     }
 
@@ -285,4 +301,4 @@ const mapStateToProps = ({ user }) => {
     return { user }
 }
 
-export default connect(mapStateToProps) (Home);
+export default connect(mapStateToProps, { cartLength }) (Home);

@@ -11,7 +11,7 @@ class LoginPage extends Component {
 
   onBtnLoginClick = () => {
     this.props.loginUser(this.props.loginForm) 
-  }
+  } 
 
   renderButtonLogin = () => {
     if(this.props.loginForm.loading) {

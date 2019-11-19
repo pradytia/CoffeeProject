@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { connect } from 'react-redux';
+import {  cartLength } from '../../4.redux/1.Action';
 import { Link } from 'react-router-dom';
 import { MDBContainer, 
         MDBBtn,
@@ -33,6 +34,15 @@ class ProductDetails extends Component {
       } 
 
 
+    checkCartLength = () => {
+        Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
+        .then(res => {
+            this.props.cartLength(res.data.length)
+        }).catch(err => {
+            console.log(err)
+        })
+    }  
+
     addToCart  = () => {
         this.setState({ loading: true })
         let cartObj = {
@@ -50,6 +60,8 @@ class ProductDetails extends Component {
                 .then(res => {
                     //this.props.cartUser(this.props.id)
                     this.setState({ loading : false, modal : true })
+                    // this.props.cartLength(this.props.user.id)
+                    this.checkCartLength()
                 })
                 .catch(err=>{
                     console.log(err)
@@ -59,6 +71,8 @@ class ProductDetails extends Component {
                 .then(res=>{
                     // this.props.cartUser(this.props.id)
                     this.setState({ loading : false, modal : true })
+                    // this.props.cartLength(this.props.user.id)
+                    this.checkCartLength()
                 })
                 .catch(err=>{
                     console.log(err)
@@ -68,7 +82,7 @@ class ProductDetails extends Component {
         .catch(err=>{
             console.log(err) 
         })
-    }
+    } 
 
     getProduct = () => {
         Axios.get(urlApi + '/product/getproduct/' + this.props.match.params.id)
@@ -211,4 +225,4 @@ const mapStateToProps = ({ user }) => {
     return { user }
 }
 
-export default connect(mapStateToProps) (ProductDetails);
+export default connect(mapStateToProps, { cartLength }) (ProductDetails);

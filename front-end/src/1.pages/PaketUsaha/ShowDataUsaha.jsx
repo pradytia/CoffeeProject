@@ -19,7 +19,7 @@ const ShowDataUsaha = (props) => {
         {/* <div className='discount'>{props.discount}%</div> */}      
         <p>
             <span className="nama mt-3">{props.nama}</span><br/>
-            <span className='harga'>Rp. {props.harga}</span>
+            <span className='harga'>Rp. {new Intl.NumberFormat('id-ID').format(props.harga)}</span>
         </p>           
            <div className=''>
             <span className='fa fa-star checked'></span>
@@ -31,11 +31,17 @@ const ShowDataUsaha = (props) => {
             </div>          
         </div>
         <div className="">
-             <Link to={'/product-details/' + props.id}>
-                 <center>
-                    <h5 className="fas fa-shopping-cart keranjang" style={{color:'white'}}> </h5>
-                 </center>
-            </Link>
+                    <center> 
+                         {
+                             props.username 
+                             ?
+                             <h5 type='button' onClick={props.fnCart} className="fas fa-shopping-cart keranjang" style={{color:'white'}}> </h5>
+                             :
+                            <Link to='/auth'>
+                                <h5 type='button' className="fas fa-shopping-cart keranjang rounded-circle" style={{color:'white'}}> </h5>
+                            </Link>
+                         }                      
+                     </center>
         </div>
     </div>
     );

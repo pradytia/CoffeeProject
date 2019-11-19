@@ -6,6 +6,8 @@ import {
 import ShowDataUsaha from './ShowDataUsaha';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
+import { connect } from 'react-redux';
+import swal from 'sweetalert';
 
 
 class PaketUsaha extends Component {
@@ -16,6 +18,44 @@ class PaketUsaha extends Component {
 
     componentDidMount(){
         this.getDataUsaha()
+    } 
+
+    addToCart = (val) => {
+        this.setState({ loading : true })
+        let cartObj = {
+            quantity    : parseInt(this.state.qtyInput),
+            id_user     : this.props.user.id,
+            id_product  : val.id
+        }
+        Axios.get(urlApi + `/user/getcart?id_user=${this.props.user.id}&id_product=${val.id}`)
+        .then(res=>{
+            if(res.data.length > 0){
+                cartObj.quantity = parseInt(res.data[0].quantity) + parseInt(this.state.qtyInput)
+                this.setState({ loading : false })
+                Axios.put(urlApi + '/user/editcart/' + res.data[0].id, cartObj)
+                .then(res=>{
+                    console.log(res.data)
+                    this.setState({ loading : false })
+                    swal('Add To Cart', 'Item Added To Cart', 'success')
+                    // this.props.cartLength(this.props.user.id)
+                }).catch(err =>{
+                    console.log(err)
+                })  
+
+            }else{
+                Axios.post(urlApi + '/user/addcart' , cartObj)
+                .then(res => {
+                    console.log(res)
+                    this.setState({ loading : false })
+                    swal('Add To Cart', 'Item Added To Cart', 'success')
+                    // this.props.cartLength(this.props.user.id)
+                }).catch(err=>{
+                    console.log(err)
+                })
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
     }
 
     getDataUsaha = () => {
@@ -38,6 +78,8 @@ class PaketUsaha extends Component {
                                discount = {val.discount}
                                deskripsi = {val.deskripsi}
                                img = {val.pathImg}
+                               fnCart = {()=> this.addToCart(val)}
+                               username = {this.props.user.username}
                                />
             )
         })
@@ -70,4 +112,8 @@ class PaketUsaha extends Component {
     }
 }
 
-export default PaketUsaha;
+const mapStateToProps = ({ user }) => {
+    return { user }
+}
+
+export default connect(mapStateToProps) (PaketUsaha);

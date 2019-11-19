@@ -148,10 +148,12 @@ module.exports = {
                     sqlDB.query(sql, (err,result) => {
                         if(err) return res.status(500).send({ message : 'select database error', err})
 
+                        // console.log(result)
+
                         let kode = Math.floor(new Date().getTime() / (result[0].idcart * 1000000))
         
                         sql = `INSERT INTO transaction_item VALUES 
-                           (${null}, '${result[0].userId}', '${result[0].alamat}', ${result[0].totalPrice}, '${status}', ${cancel}, '${time}', ${null}, ${kode})`
+                           (${null}, ${result[0].userId}, '${result[0].alamat}', ${result[0].totalPrice}, '${status}', ${cancel}, '${time}', ${null}, ${kode})`
         
                           sqlDB.query(sql, (err,result1) => {
                             if(err) return res.status(500).send({ message : 'INSERT transaction_item database error', err})
@@ -189,9 +191,9 @@ module.exports = {
 
                                             // console.log(result4)
 
-                                                sql = `CREATE EVENT trx_${result4.length}
+                                                sql = ` CREATE EVENT trx_${result4.length}
                                                         ON schedule
-                                                        AT CURRENT_TIMESTAMP + INTERVAL 2 minute
+                                                        AT CURRENT_TIMESTAMP + INTERVAL 1 hour
                                                         DO
                                                         UPDATE transaction_item SET status = "expired", cancel = 1
                                                         WHERE userId = ${sqlDB.escape(req.params.id)};`;
@@ -279,10 +281,14 @@ module.exports = {
             const path = '/images/uploadtrx';
             const upload = uploader(path, 'trx').single('uploaduser');
 
+            // console.log(req)
+            // console.log(req.file)
             upload(req, res, (err) => {
                 if(err) return res.status(500).send({message : 'Image Upload to api Failed', err})
 
                 // console.log(req.file)
+                // console.log(req)
+                //filename terbuat dari multer
                 const data = {upload_image : path + '/' + req.file.filename}
 
                 var sql = `UPDATE transaction_item SET ? WHERE id = ${req.params.id}; `;

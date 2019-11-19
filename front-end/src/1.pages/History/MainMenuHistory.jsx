@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {MDBBtn, MDBBtnGroup, MDBNavLink } from "mdbreact";
 import { connect } from 'react-redux';
-import mainhistory from './mainhistory.png';
+import mainhistory from './mainhistory.png'; 
 
 class MainMenuHistory extends Component {
 

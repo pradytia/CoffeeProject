@@ -171,7 +171,7 @@ class Cart extends Component {
     }
 
     renderBtnClickPembayaran = () => {
-        if(this.props.check.loading){
+        if(this.props.customer.loading){
           return (
             <>
             <div className="spinner-grow text-danger" role="status">
@@ -196,7 +196,7 @@ class Cart extends Component {
 
     renderBtnAddAlamat = () => {
 
-        if(this.props.address.loading){
+        if(this.props.data.loading){
           return (
             <div className='text-center'>
             <div className="spinner-grow text-danger" role="status">
@@ -293,7 +293,7 @@ class Cart extends Component {
 
     renderTotalPrice = () => {
        return  this.state.totalprice.map((val,idx)=>{
-          return <p key={idx}>Rp. {new Intl.NumberFormat('id-ID').format(val.totalPrice)}</p>
+          return <span key={idx}>Rp. {new Intl.NumberFormat('id-ID').format(val.totalPrice)}</span>
         })
     }
 
@@ -355,7 +355,7 @@ class Cart extends Component {
                                   onChange={(e)=> this.setState({ noHp : e.target.value })}
                                   />
                           </div>
-                          <p className='text-center text-danger'>{this.props.address.message}</p> 
+                          <p className='text-center text-danger'>{this.props.data.message}</p> 
                               {this.renderBtnAddAlamat()}
                         </>
                         :
@@ -405,8 +405,8 @@ class Cart extends Component {
   }
 }
 
-const mapStateToProps = ({ user, check, address }) => {
-  return { user, check, address }
+const mapStateToProps = ({ user, customer, data }) => {
+  return { user, customer, data }
 }
 
-export default connect(mapStateToProps, { checkDataCustomer, addDataCustomer }) (Cart);
+export default connect(mapStateToProps, { checkDataCustomer, addDataCustomer }) (Cart); 

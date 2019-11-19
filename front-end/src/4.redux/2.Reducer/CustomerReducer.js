@@ -1,7 +1,7 @@
 import { CHECKOUT_FAILED, 
          CHECKOUT_SUCCESS, 
          CHECK_DATA_CUSTOMER,
-        //  CART_QUANTITY 
+         CART_QUANTITY 
         } from '../type/type';
 
 
@@ -21,8 +21,8 @@ export default ( state = INITIAL_STATE , action) => {
             return INITIAL_STATE
         case CHECKOUT_FAILED :
             return {...state, message : action.payload, loading : false }
-        // case CART_QUANTITY :
-        //     return {...INITIAL_STATE, cartQty : action.payload}
+        case CART_QUANTITY :
+            return {...INITIAL_STATE, cartQty : action.payload}
         default :
         return state
     }

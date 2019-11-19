@@ -18,7 +18,7 @@ export const checkKeepLogin = () => {
     return (dispatch) => {
 
         const token = localStorage.getItem('token')
-        console.log(token)
+        // console.log(token)
 
         var options = {
             headers : {
@@ -27,7 +27,7 @@ export const checkKeepLogin = () => {
         }
         Axios.post(urlApi + '/user/keeplogin',{}, options)
         .then(res => {
-            // console.log(res.data)
+            console.log(res.data)
             localStorage.setItem('token', res.data.token)
             dispatch({
                 type :  LOGIN_SUCCESS,
@@ -56,3 +56,18 @@ export const logOutUser = () => {
         type : LOGOUT_USER
     }
 }
+
+// export const cartLength = (id) => {
+//    return (dispatch) => {
+//        Axios.get(urlApi + '/user/getcartw/' + id)
+//        .then(res => {
+//            dispatch({
+//                type :  CART_QUANTITY,
+//                payload : res.data.length
+//            })
+//            console.log(res.data)
+//        }).catch(err => {
+//            console.log(err)
+//        })
+//    }
+// }

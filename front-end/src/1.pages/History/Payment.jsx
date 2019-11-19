@@ -41,8 +41,8 @@ class Payment extends Component {
         }
         
         formData.append('uploaduser',this.state.imageUpload[0])
-        // console.log(this.state.imageUpload[0])
-        // console.log(formData)
+        console.log(this.state.imageUpload)
+        console.log(formData)
 
         Axios.put(urlApi + '/user/uploadimage/' + id, formData, options)
         .then(res => {
@@ -55,7 +55,7 @@ class Payment extends Component {
 
     }
 
-
+ 
    renderListTrxItem = () => {
        return this.state.listTrxItem.map((val,idx) => {
            return (
@@ -71,6 +71,7 @@ class Payment extends Component {
                                 <p style={{color:'gray'}}>Sisa waktu pembayaran anda</p>
                                 <span style={{fontSize:'60px'}} key={idx}>
                                     <Countdown date={Date.now() + val.timediff}/>
+                                    {/* {console.log(val.timediff)} */}
                                 </span>
                             </div>
                             <div className='mt-5'>

@@ -11,6 +11,6 @@ export default combineReducers({
     registerForm : registerFormReducer,
     user         : userReducer,
     loginForm    : loginFormReducer,
-    check        : CustomerReducer,
-    address      : dataCustomerReducers
+    customer     : CustomerReducer,
+    data         : dataCustomerReducers
 })

@@ -20,7 +20,7 @@ export const inputLoginPassword = (password) => {
         type : LOGIN_PASSWORD_CHANGED,
         payload : password
     }
-}
+} 
 
 export const loginUser = (user) => {
     return (dispatch) => {

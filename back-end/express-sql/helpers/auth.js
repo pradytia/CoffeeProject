@@ -13,7 +13,7 @@ module.exports = {
                     // success = false;
                     return res.status(500).json({ message: "User not authorized.", error: "User not authorized." , error});
                 }
-                console.log(decoded)
+                // console.log(decoded)
                 req.user = decoded;
                 // console.log(req.user)
                 next(); //ke function (req,res) di back end paramater 3

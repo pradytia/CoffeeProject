@@ -39,7 +39,7 @@ const Brewer = (props) => {
                                 <h5 type='button' className="fas fa-shopping-cart keranjang rounded-circle" style={{color:'white'}}> </h5>
                             </Link>
                          }                      
-                     </center>
+                     </center> 
             </div>
         </div>
     );

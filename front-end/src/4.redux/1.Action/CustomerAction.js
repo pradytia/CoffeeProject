@@ -4,7 +4,7 @@ import { CHECKOUT_FAILED,
          CART_QUANTITY
         } from '../type/type';
 import Axios from 'axios';
-import { urlApi } from '../../3.helpers/database';
+import { urlApi } from '../../3.helpers/database'; 
  
 
 export const checkDataCustomer = (id) => {
