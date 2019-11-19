@@ -10,6 +10,7 @@ import { MDBContainer,
         MDBModalBody, 
         MDBModalHeader,
         MDBModalFooter } from 'mdbreact';
+import {FavoriteBorderOutlined, Favorite} from '@material-ui/icons'
 
 
 
@@ -20,7 +21,8 @@ class ProductDetails extends Component {
         cartData      : [],
         qtyInput      : 1,
         loading       : false,
-        modal         : false
+        modal         : false,
+        wishlist      : false
     }
 
     componentDidMount(){
@@ -84,6 +86,41 @@ class ProductDetails extends Component {
         })
     } 
 
+
+    getWishlist = () => {
+        Axios.get(urlApi + `/product/wishlist?id_user=${this.props.user.id}&id_product=${this.props.match.params.id}`)
+        .then(res => {
+            if(res.data.length > 0){
+                this.setState({ wishlist : true })
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+    toggleWishlist = () => {
+        Axios.get(urlApi + `/product/wishlist?id_user=${this.props.user.id}&id_product=${this.props.match.params.id}`)
+        .then(res => {
+            if(this.state.wishlist){
+                Axios.delete(urlApi + '/product/wishlist/' + res.data[0].id)
+                .then(res => {
+                    this.setState({ wishlist : false })
+                }).catch(err => {
+                    console.log(err)
+                })
+            }else{
+                Axios.post(urlApi + '/product/wishlist', {id_user : this.props.user.id, id_product : this.props.match.params.id})
+                .then(res => {
+                    this.setState({ wishlist : true})
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+
     getProduct = () => {
         Axios.get(urlApi + '/product/getproduct/' + this.props.match.params.id)
         .then(res => {
@@ -125,7 +162,15 @@ class ProductDetails extends Component {
                     </div>
                     <div className="col-md-8 pl-5">
                         <h1  style={{fontWeight:'700', color:'#606060', fontSize:'30px', paddingTop:'1%'}}>
-                        {val.nama}</h1>
+                            {val.nama}
+                        { 
+                                this.state.wishlist 
+                                ? 
+                                <Favorite onClick={this.toggleWishlist} style={{color:'red',fontSize:32, cursor:'pointer', paddingLeft: 10}}/> 
+                                : 
+                                <FavoriteBorderOutlined onClick={this.toggleWishlist} style={{color:'red',fontSize:32, cursor:'pointer', paddingLeft: 10}}/>
+                                }
+                        </h1>
                         <div style={{backgroundColor : 'red',
                                      width           : '50px',
                                      height          : '22px',
@@ -200,7 +245,7 @@ class ProductDetails extends Component {
                                 <MDBBtn className="btn btn-secondary">Lanjut Berbelanja</MDBBtn>
                             </Link>
                             <Link to={`/user/cart/${this.props.user.id}`}  style={{textDecoration:'none', paddingRight: 40}}>
-                                <MDBBtn className="btn btn-primary">Lanjut Pembayaran</MDBBtn>
+                                <MDBBtn className="btn btn-primary">Lihat Keranjang</MDBBtn>
                             </Link>
                             </MDBModalFooter> 
                         </MDBModal>

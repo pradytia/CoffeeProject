@@ -226,5 +226,44 @@ module.exports = {
             res.status(200).send(result)
         })
                                 
+    },
+
+    getWishlist : (req,res) => {
+
+        let id_user =  req.query.id_user || ''
+        let id_product = req.query.id_product || ''
+
+        var sql = `SELECT * FROM wishlist w
+                   JOIN products p
+                   ON p.id = w.id_product
+                   where w.id_user LIKE '%${id_user}%' AND w.id_product LIKE '%${id_product}%';`;
+
+        sqlDB.query(sql, (err,result) => {
+            if(err) return res.status(500).send({ message : 'Select Database by query Error', err})
+
+            res.status(200).send(result)
+        })
+    },
+
+    deleteWishlist : (req,res) => {
+
+        var sql = `DELETE FROM wishlist WHERE id = ${sqlDB.escape(req.params.id)};`;
+
+        sqlDB.query(sql, (err,result) => {
+            if(err) return res.status(500).send({ message : 'DELETE from db Error', err})
+
+            res.status(200).send(result)
+        })
+    },
+
+    addWishlist : (req,res) => {
+
+        var sql = `INSERT INTO wishlist SET ? `;
+
+        sqlDB.query(sql, req.body,(err,result) => {
+            if(err) return res.status(500).send({ message : 'INSERT into db Error', err})
+
+            res.status(200).send(result)
+        })
     }
 }

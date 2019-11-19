@@ -25,6 +25,7 @@ import History from './1.pages/History/History';
 import CartSubscription from './1.pages/Subscription/CartSubscription';
 import MainMenuHistory from './1.pages/History/MainMenuHistory';
 import HistorySubs from './1.pages/History/HistorySubs';
+import Wishlist from './1.pages/Wishlist/Wishlist';
 
 
 class App extends Component {
@@ -48,6 +49,7 @@ class App extends Component {
         <Route path='/artikel-details/:id' component={ArtikelDetails} />
         <Route path='/payment/:id' component={Payment} exact/>
         <Route path='/mainmenuhistory' component={MainMenuHistory} exact/>
+        <Route path='/wishlist' component={Wishlist} exact/>
         <Route path='/history/:id' component={History} exact/>
         <Route path='/historysubs/:id' component={HistorySubs} exact/>
         <Route path='/login' component={LoginPage} exact/>

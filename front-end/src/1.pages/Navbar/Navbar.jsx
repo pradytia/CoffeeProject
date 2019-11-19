@@ -3,8 +3,8 @@ import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNav
 MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon } from "mdbreact";
 import { connect } from 'react-redux';
 import { logOutUser, cartLength } from '../../4.redux/1.Action';
-// import Axios from "axios";
-// import { urlApi } from "../../3.helpers/database";
+import Axios from "axios";
+import { urlApi } from "../../3.helpers/database";
 // import Axios from "axios";
 // import { urlApi } from "../../3.helpers/database";
 
@@ -16,6 +16,10 @@ class NavbarComp extends Component {
     valueSearch : ''
 
     };
+
+  componentDidMount(){
+    this.getCartLength()
+  } 
 
   toggleCollapse = () => {
     this.setState({ isOpen: !this.state.isOpen })
@@ -29,17 +33,15 @@ class NavbarComp extends Component {
   }
 
 
-  // componentWillReceiveProps(){
-  //   if(this.props.user.username){
-  //     Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
-  //     .then(res => {
-  //       this.props.cartLength(res.data.length)
-  //       console.log(res.data.length)
-  //     }).catch(err => {
-  //       console.log(err)
-  //     })
-  //   }
-  // }
+  getCartLength = () => {
+      Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
+        .then(res => {
+          this.props.cartLength(res.data.length)
+          console.log(res.data.length)
+        }).catch(err => {
+          console.log(err)
+        })
+  }
 
 render() {
   // console.log(this.props.user.id)
@@ -124,7 +126,7 @@ render() {
             <MDBNavLink className="waves-effect waves-light" to={`/user/cart/${this.props.user.id}`}>
                <MDBIcon icon="shopping-cart" />
                   <span style={{padding: 7}}>
-                      {/* <sup>{this.props.customer.cartQty}</sup> */}
+                      <sup>{this.props.customer.cartQty}</sup>
                     </span>
               </MDBNavLink>
             </MDBNavItem>
@@ -166,6 +168,9 @@ render() {
                  </MDBDropdownItem>
                   <MDBDropdownItem>
                     <MDBNavLink style={{color : 'black'}}  to='/mainmenuhistory'>History</MDBNavLink>   
+                  </MDBDropdownItem>
+                  <MDBDropdownItem>
+                    <MDBNavLink style={{color : 'black'}}  to='/wishlist'>Wishlist</MDBNavLink>   
                   </MDBDropdownItem>
                   <MDBDropdownItem onClick={this.props.logOutUser}>
                     <MDBNavLink to='/' style={{color : 'black'}}>

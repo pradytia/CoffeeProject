@@ -22,5 +22,8 @@ router.get('/gettool', productController.getTool)
 router.get('/gettool/:id', productController.getToolId)
 router.get('/paketusaha',productController.getPaketUsaha)
 router.get('/paketusaha/:id',productController.getPaketusahaId)
+router.get('/wishlist', productController.getWishlist)
+router.delete('/wishlist/:id', productController.deleteWishlist)
+router.post('/wishlist', productController.addWishlist)
 
 module.exports = router
