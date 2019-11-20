@@ -59,7 +59,7 @@ class Home extends Component {
                     this.setState({ loading : false })
                     swal('Add To Cart', 'Item Added To Cart', 'success')
                     // this.props.cartLength(this.props.user.id)
-                    this.checkCartLength()
+                    // this.checkCartLength()
                 }).catch(err =>{
                     console.log(err)
                 })  
@@ -71,7 +71,7 @@ class Home extends Component {
                     this.setState({ loading : false })
                     swal('Add To Cart', 'Item Added To Cart', 'success')
                     // this.props.cartLength(this.props.user.id)
-                    this.checkCartLength()
+                    // this.checkCartLength()
                 }).catch(err=>{
                     console.log(err)
                 })

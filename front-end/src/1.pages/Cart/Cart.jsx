@@ -22,6 +22,7 @@ class Cart extends Component {
       cart          : [],
       totalprice    : [],
       dataCustomer  : [],
+      listTrxItem   : [],
       namaPenerima  : '',
       alamat        : '',
       kodePos       : '',
@@ -37,6 +38,7 @@ class Cart extends Component {
       this.getCart()
       this.getDataCustomer()
       this.getTotalPrice()
+      this.getListTrxItem()
     }
 
 
@@ -170,6 +172,17 @@ class Cart extends Component {
       })
     }
 
+
+    getListTrxItem = () => {
+      Axios.get(urlApi + '/user/gettrxitem/' + this.props.match.params.id)
+      .then(res => {
+          this.setState({ listTrxItem : res.data })
+          // console.log(res.data)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+
     renderBtnClickPembayaran = () => {
         if(this.state.loading){
           return (
@@ -266,14 +279,11 @@ class Cart extends Component {
                             </MDBModalFooter> 
                         </MDBModal>
                     </MDBContainer>
-            
-
-         </div>
+            </div>
   
           )
   
-        })
-          
+        })         
     }
 
     renderDataCustomer = () => {
