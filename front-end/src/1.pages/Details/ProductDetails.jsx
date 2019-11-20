@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { connect } from 'react-redux';
-import {  cartLength } from '../../4.redux/1.Action';
 import { Link } from 'react-router-dom';
 import { MDBContainer, 
         MDBBtn,
@@ -11,8 +10,9 @@ import { MDBContainer,
         MDBModalHeader,
         MDBModalFooter } from 'mdbreact';
 import {FavoriteBorderOutlined, Favorite} from '@material-ui/icons'
+import swal from 'sweetalert';
 
-
+ 
 
 class ProductDetails extends Component {
 
@@ -27,6 +27,7 @@ class ProductDetails extends Component {
 
     componentDidMount(){
         this.getProduct()
+        this.getWishlist()
     }
 
     toggle = () => {
@@ -36,14 +37,14 @@ class ProductDetails extends Component {
       } 
 
 
-    checkCartLength = () => {
-        Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
-        .then(res => {
-            this.props.cartLength(res.data.length)
-        }).catch(err => {
-            console.log(err)
-        })
-    }  
+    // checkCartLength = () => {
+    //     Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
+    //     .then(res => {
+    //         this.props.cartLength(res.data.length)
+    //     }).catch(err => {
+    //         console.log(err)
+    //     })
+    // }  
 
     addToCart  = () => {
         this.setState({ loading: true })
@@ -63,7 +64,6 @@ class ProductDetails extends Component {
                     //this.props.cartUser(this.props.id)
                     this.setState({ loading : false, modal : true })
                     // this.props.cartLength(this.props.user.id)
-                    this.checkCartLength()
                 })
                 .catch(err=>{
                     console.log(err)
@@ -74,7 +74,6 @@ class ProductDetails extends Component {
                     // this.props.cartUser(this.props.id)
                     this.setState({ loading : false, modal : true })
                     // this.props.cartLength(this.props.user.id)
-                    this.checkCartLength()
                 })
                 .catch(err=>{
                     console.log(err)
@@ -82,6 +81,7 @@ class ProductDetails extends Component {
             } 
         })
         .catch(err=>{
+            swal('Failed', 'Add To Cart Failed', 'danger')
             console.log(err) 
         })
     } 
@@ -270,4 +270,4 @@ const mapStateToProps = ({ user }) => {
     return { user }
 }
 
-export default connect(mapStateToProps, { cartLength }) (ProductDetails);
+export default connect(mapStateToProps) (ProductDetails);

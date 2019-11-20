@@ -6,8 +6,6 @@ import { urlApi } from '../../3.helpers/database';
 class ManageProduct extends Component {
 
     state = {
-        isOpen : false,
-        sideMenu : 1,
         tampungProduct  : [],
         listJenis   : [],
         maxPage     : 0,
@@ -55,7 +53,7 @@ class ManageProduct extends Component {
             console.log(err)
         })
     }
-
+ 
 
     onBtnSaveEdit = (id) => {
         Axios.put(urlApi + '/product/editproduct/' + id, {
@@ -154,7 +152,8 @@ class ManageProduct extends Component {
                                                                   editDiscount  : val.discount,
                                                                   editDeskripsi : val.deskripsi ,
                                                                   editHarga     : val.harga,
-                                                                  editImage     : val.pathImg })}
+                                                                  editImage     : val.pathImg 
+                                                                })}
                                     />
                             </td>
                             <td>

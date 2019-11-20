@@ -5,6 +5,8 @@ import ManageSubscription from './ManageSubscription';
 import {MDBBtn, MDBBtnGroup } from "mdbreact";
 import admin from './admin.png'; 
 import LogActivityUser from './LogActivityUser';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 
 
 class MainMenu extends Component {
@@ -14,6 +16,9 @@ class MainMenu extends Component {
     }
 
     render() {
+        if(this.props.user.username === ''){
+            return <Redirect to='/'/>
+        }
         return (
             <div className='mt-5'>
                 <center>
@@ -21,9 +26,9 @@ class MainMenu extends Component {
                         <MDBBtn color="success" size="lg" onClick={() => this.setState({tabMenu : 1})}>
                              Manage Product 
                         </MDBBtn>
-                        <MDBBtn color="primary" size="lg" onClick={() => this.setState({tabMenu : 2})}>
+                        {/* <MDBBtn color="primary" size="lg" onClick={() => this.setState({tabMenu : 2})}>
                             Manage Berita
-                        </MDBBtn>
+                        </MDBBtn> */}
                         <MDBBtn color="default" size="lg" onClick={() => this.setState({tabMenu : 3})}>
                              Subscription 
                         </MDBBtn>
@@ -45,10 +50,10 @@ class MainMenu extends Component {
                     :
                     <div className="">
                         {this.state.tabMenu === 1 ? <ManageProduct/> : null}
-                        {this.state.tabMenu === 2 ? <div className='text-center mt-5'>
+                        {/* {this.state.tabMenu === 2 ? <div className='text-center mt-5'>
                         <h5>Welcome to Admin Dashboard </h5>
                         <img src={admin} alt='' style={{width:'32%'}}/>
-                         </div> : null}
+                         </div> : null} */}
                         {this.state.tabMenu === 3 ? <ManageSubscription/> : null}
                         {this.state.tabMenu === 4 ? <ManageHistory/> : null}
                         {this.state.tabMenu === 5 ? <LogActivityUser/> : null}
@@ -59,4 +64,8 @@ class MainMenu extends Component {
     }
 }
 
-export default MainMenu;
+const mapStateToProps = ({ user }) => {
+    return { user }
+}
+
+export default connect(mapStateToProps) (MainMenu);

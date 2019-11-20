@@ -21,7 +21,7 @@ class History extends Component {
         Axios.get(urlApi + '/user/history/' + this.props.match.params.id)
         .then(res => {
             this.setState({ listHistory : res.data })
-            console.log(res.data)
+            // console.log(res.data)
         }).catch(err =>{
             console.log(err)
         })
@@ -31,7 +31,7 @@ class History extends Component {
         Axios.get(urlApi + '/user/historydetails/' + this.props.match.params.id)
         .then(res => {
             this.setState({ listHistoryDetails : res.data })
-            console.log(res.data)
+            // console.log(res.data)
         }).catch(err =>{
             console.log(err)
         })

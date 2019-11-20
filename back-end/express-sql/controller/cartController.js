@@ -118,7 +118,7 @@ module.exports = {
                                 FROM cart c
                                 JOIN products p
                                 ON p.id = c.id_product
-                                WHERE c.id_user = ${req.params.id};`;
+                                WHERE c.id_user = ${sqlDB.escape(req.params.id)};`;
         
         sqlDB.query(sql, (err,result) => {
             if(err) return res.status(500).send({ message : 'Select totalprice from database error', err})
@@ -133,6 +133,8 @@ module.exports = {
         var status = 'waiting payment'
         var cancel = 0
 
+        console.log(req.body)
+
             var sql = `SELECT
                             c.id as idcart, 
                             c.id_user as userId,
@@ -143,7 +145,7 @@ module.exports = {
                             ON p.id = c.id_product
                             JOIN data_customer d
                             ON d.id_user = c.id_user
-                            WHERE c.id_user = ${req.params.id}; `;
+                            WHERE c.id_user = ${sqlDB.escape(req.params.id)}; `;
 
                     sqlDB.query(sql, (err,result) => {
                         if(err) return res.status(500).send({ message : 'select database error', err})
@@ -171,7 +173,7 @@ module.exports = {
                                                 ON t.userId = c.id_user
                                                 JOIN products p
                                                 ON p.id = c.id_product
-                                                WHERE c.id_user = ${req.params.id}`
+                                                WHERE c.id_user = ${sqlDB.escape(req.params.id)}`
 
                                                
                              sqlDB.query(sql, (err, result2) => {
@@ -184,7 +186,7 @@ module.exports = {
                                  sqlDB.query(sql, (err,result3) => {
                                      if(err) return res.status(500).send({ message : 'delete from database error', err})
 
-                                     sql = `SELECT id from transaction_item where userId =  ${req.params.id}`;
+                                     sql = `SELECT id from transaction_item where userId =  ${sqlDB.escape(req.params.id)}`;
 
                                         sqlDB.query(sql, (err, result4) => {
                                             if(err) return res.status(500).send({ message : 'select id from trx item from database error', err})
@@ -196,7 +198,7 @@ module.exports = {
                                                         AT CURRENT_TIMESTAMP + INTERVAL 1 hour
                                                         DO
                                                         UPDATE transaction_item SET status = "expired", cancel = 1
-                                                        WHERE userId = ${sqlDB.escape(req.params.id)};`;
+                                                        WHERE  status = "waiting payment"  AND userId = ${req.params.id};`;
             
                                                 sqlDB.query(sql, (err, result5) => {
                                                     if(err) return res.status(500).send({ message : 'create event from database error', err})
@@ -231,7 +233,7 @@ module.exports = {
         getHistoryJoinDataCustomerId : (req,res) => {
 
             var sql = `SELECT * FROM transaction_item ti JOIN data_customer d ON d.id_user = ti.userId
-                       WHERE userId = ${req.params.id};`;
+                       WHERE userId = ${sqlDB.escape(req.params.id)};`;
 
             sqlDB.query(sql, (err,result) => {
                 if(err) return res.status(500).send({ message : 'Select from database error' , err })
@@ -257,7 +259,7 @@ module.exports = {
         getHistoryDetailsId : (req,res) => {
 
             var sql = `SELECT id FROM transaction_item
-                       WHERE userId = ${req.params.id};`;
+                       WHERE userId = ${sqlDB.escape(req.params.id)};`;
 
             sqlDB.query(sql, (err,result) => {
                 if(err) return res.status(500).send({ message : 'Select id from trx item error' , err })
@@ -291,7 +293,7 @@ module.exports = {
                 //filename terbuat dari multer
                 const data = {upload_image : path + '/' + req.file.filename}
 
-                var sql = `UPDATE transaction_item SET ? WHERE id = ${req.params.id}; `;
+                var sql = `UPDATE transaction_item SET ? WHERE id = ${sqlDB.escape(req.params.id)}; `;
 
                 sqlDB.query(sql, data, (err1,result) => {
                     if(err1){
@@ -301,13 +303,13 @@ module.exports = {
                         )
                     } 
 
-                    sql = `UPDATE transaction_item set status ='Waiting Confirmation' WHERE id =${req.params.id};`;
+                    sql = `UPDATE transaction_item set status ='Waiting Confirmation' WHERE id =${sqlDB.escape(req.params.id)};`;
 
                     sqlDB.query(sql, (err,result1) => {
                         if(err) return res.status(500).send({ message : 'Update status from trx item failed'})
 
                         sql = `SELECT id from transaction_item WHERE userId = 
-                                (SELECT userId from transaction_item WHERE id = ${req.params.id});`;
+                                (SELECT userId from transaction_item WHERE id = ${sqlDB.escape(req.params.id)});`;
     
                         sqlDB.query(sql, (err,result2) => {
                             if(err) return res.status(500).send({ message : 'Select id from trx item failed'})
@@ -331,7 +333,7 @@ module.exports = {
 
         updateStatusPayment : (req,res) => {
 
-            var sql = `UPDATE transaction_item SET status='Success' WHERE id=${req.params.id};`;
+            var sql = `UPDATE transaction_item SET status='Success' WHERE id=${sqlDB.escape(req.params.id)};`;
 
             sqlDB.query(sql, (err,result) => {
                 if(err) return res.status(500).send({ message : 'Update status failed', err})

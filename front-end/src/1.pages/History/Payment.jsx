@@ -14,18 +14,19 @@ class Payment extends Component {
         openForm :  false,
         imageUpload : ''
     }
-
+ 
     componentDidMount(){
         this.getListTrxItem()
     }
 
   
+    //get * and timestampdiff
 
     getListTrxItem = () => {
         Axios.get( urlApi + '/user/gettrxitem/' + this.props.match.params.id)
         .then(res => {
             this.setState({ listTrxItem : res.data })
-            console.log(res.data)
+            // console.log(res.data)
         }).catch(err => {
             console.log(err)
         })
@@ -71,15 +72,15 @@ class Payment extends Component {
                                 <p style={{color:'gray'}}>Sisa waktu pembayaran anda</p>
                                 <span style={{fontSize:'60px'}} key={idx}>
                                     <Countdown date={Date.now() + val.timediff}/>
-                                    {/* {console.log(val.timediff)} */}
+                                    {/* {console.log(Date.now())} */}
                                 </span>
+                            </div>
                             </div>
                             <div className='mt-5'>
                                 <h4 className='mt-5' style={{color:'grey'}}>Kode Bayar Anda :</h4>
                                 <h5 style={{color:'darkorange'}}>{val.kodebayar}</h5>
                             </div>                                
-                            </div>
-                            <div className='mt-5'>
+                            <div className='mt-2'>
                                 <input type='button' className='btn btn-default mt-5' value='PAY>>' 
                                 onClick={()=> this.setState({ openForm : !this.state.openForm })}
                                 />

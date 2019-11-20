@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBDropdown,
 MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem, MDBIcon } from "mdbreact";
 import { connect } from 'react-redux';
-import { logOutUser, cartLength } from '../../4.redux/1.Action';
-import Axios from "axios";
-import { urlApi } from "../../3.helpers/database";
-// import Axios from "axios";
-// import { urlApi } from "../../3.helpers/database";
+import { logOutUser } from '../../4.redux/1.Action';
+
 
 
 class NavbarComp extends Component {
@@ -17,9 +14,6 @@ class NavbarComp extends Component {
 
     };
 
-  componentDidMount(){
-    this.getCartLength()
-  } 
 
   toggleCollapse = () => {
     this.setState({ isOpen: !this.state.isOpen })
@@ -32,16 +26,6 @@ class NavbarComp extends Component {
     }
   }
 
-
-  getCartLength = () => {
-      Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
-        .then(res => {
-          this.props.cartLength(res.data.length)
-          console.log(res.data.length)
-        }).catch(err => {
-          console.log(err)
-        })
-  }
 
 render() {
   // console.log(this.props.user.id)
@@ -122,14 +106,14 @@ render() {
                        />
                 </div>       
             </MDBNavItem>
-            <MDBNavItem>
+            {/* <MDBNavItem>
             <MDBNavLink className="waves-effect waves-light" to={`/user/cart/${this.props.user.id}`}>
                <MDBIcon icon="shopping-cart" />
                   <span style={{padding: 7}}>
                       <sup>{this.props.customer.cartQty}</sup>
                     </span>
               </MDBNavLink>
-            </MDBNavItem>
+            </MDBNavItem> */}
             <MDBNavItem>
               {
                   this.props.user.role === 'admin'
@@ -195,4 +179,4 @@ const mapStateToProps = ({ user, loginForm, customer }) => {
   return { user, loginForm, customer }
 }
 
-export default connect(mapStateToProps, { logOutUser, cartLength})(NavbarComp);
+export default connect(mapStateToProps, { logOutUser })(NavbarComp);

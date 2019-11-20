@@ -35,7 +35,7 @@ class ManageHistory extends Component {
             console.log(err)
         })
     }
-
+ 
 
     renderListHistoryUser = () => {
         return this.state.listHistoryUser.map((val,idx) => {

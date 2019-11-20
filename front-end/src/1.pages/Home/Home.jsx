@@ -12,7 +12,6 @@ import Gift from '../../2.component/Gift/Gift';
 import Tool from '../../2.component/Tool/Tool';
 import Kopi from '../../2.component/Kopi/Kopi';
 import { connect } from 'react-redux';
-import { cartLength } from '../../4.redux/1.Action';
 import Axios from 'axios';
 import swal from 'sweetalert';
 
@@ -56,7 +55,7 @@ class Home extends Component {
                 this.setState({ loading : false })
                 Axios.put(urlApi + '/user/editcart/' + res.data[0].id, cartObj)
                 .then(res=>{
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.setState({ loading : false })
                     swal('Add To Cart', 'Item Added To Cart', 'success')
                     // this.props.cartLength(this.props.user.id)
@@ -68,7 +67,7 @@ class Home extends Component {
             }else{
                 Axios.post(urlApi + '/user/addcart' , cartObj)
                 .then(res => {
-                    console.log(res)
+                    // console.log(res)
                     this.setState({ loading : false })
                     swal('Add To Cart', 'Item Added To Cart', 'success')
                     // this.props.cartLength(this.props.user.id)
@@ -86,7 +85,7 @@ class Home extends Component {
         axios.get(urlApi + '/product/getbrewer')
         .then(res => {
             this.setState({listBrewer : res.data})
-            console.log(res)
+            // console.log(res)
         })
         .catch(err => {
             console.log(err)
@@ -144,15 +143,15 @@ class Home extends Component {
     }
 
 
-    checkCartLength = () => {
-        Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
-        .then(res => {
-            this.props.cartLength(res.data.length)
-            console.log(res.data.length)
-        }).catch(err => {
-            console.log(err)
-        })
-    }
+    // checkCartLength = () => {
+    //     Axios.get(urlApi + '/user/getcartw/' + this.props.user.id)
+    //     .then(res => {
+    //         this.props.cartLength(res.data.length)
+    //         console.log(res.data.length)
+    //     }).catch(err => {
+    //         console.log(err)
+    //     })
+    // }
 
     renderDataBrewer = () => {
        return  this.state.listBrewer.map((val,idx) => {
@@ -301,4 +300,4 @@ const mapStateToProps = ({ user }) => {
     return { user }
 }
 
-export default connect(mapStateToProps, { cartLength }) (Home);
+export default connect(mapStateToProps) (Home);

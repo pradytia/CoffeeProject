@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { urlApi } from '../../3.helpers/database';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { checkDataCustomer, addDataCustomer } from '../../4.redux/1.Action';
+import { addDataCustomer } from '../../4.redux/1.Action';
 import { MDBIcon } from 'mdbreact';
 import emptycart from './emptycart.png';
 import price from './price.png';
@@ -46,7 +46,7 @@ class Cart extends Component {
       });
     }
 
-    //untuk show di card cart
+    //untuk show di card cart JOIN dgn product
     getDataCart = () => {
       
       Axios.get(urlApi + '/user/getcartId/' + this.props.match.params.id)
@@ -90,7 +90,6 @@ class Cart extends Component {
       Axios.get(urlApi + '/user/totalprice/' + this.props.match.params.id)
       .then(res => {
           this.setState({ totalprice : res.data })
-          // console.log(res.data)
       }).catch(err => {
         console.log(err)
       })
@@ -101,7 +100,8 @@ class Cart extends Component {
       if(window.confirm('Yakin mau hapus ?')){
       Axios.delete(urlApi + '/user/deletecart/' + id)
       .then(res => {
-        this.getDataCart(this.props.user.id)
+        this.getDataCart()
+        this.getTotalPrice()
       }).catch(err => {
         console.log(err)
       })
@@ -109,14 +109,15 @@ class Cart extends Component {
   }
 
     onBtnEditQty = (action, idx) => {
-      let arrData = this.state.cart
+      
+      let arrData = this.state.cart 
 
       if(action === 'min'){
           if(arrData[idx].quantity > 1){
               arrData[idx].quantity -= 1
               Axios.put(urlApi + '/user/editcart/' + arrData[idx].id, arrData[idx])
               .then(res => {
-                this.getDataCart(this.props.user.id)
+                this.getDataCart()
                 this.getTotalPrice()
               }).catch(err=>{
                 console.log(err)
@@ -126,7 +127,7 @@ class Cart extends Component {
         arrData[idx].quantity += 1
         Axios.put(urlApi + '/user/editcart/' + arrData[idx].id, arrData[idx])
         .then(res => {
-          this.getDataCart(this.props.user.id)
+          this.getDataCart()
           this.getTotalPrice()
         }).catch(err=>{
           console.log(err)
@@ -157,10 +158,9 @@ class Cart extends Component {
     }
 
     checkDataCustomer = () => {
-      Axios.get(urlApi + '/user/datacustomer/' + this.props.user.id)
+      Axios.get(urlApi + '/user/datacustomer/' + this.props.match.params.id)
       .then(res => {
           if(res.data.length > 0){
-            //  this.onBtnCheckOut()
             this.setState({ modal : true })
           }else if(res.data.length === 0){
              this.setState({ message : 'Silahkan isi alamat terlebih dahulu '})
@@ -171,7 +171,7 @@ class Cart extends Component {
     }
 
     renderBtnClickPembayaran = () => {
-        if(this.props.customer.loading){
+        if(this.state.loading){
           return (
             <>
             <div className="spinner-grow text-danger" role="status">
@@ -262,7 +262,7 @@ class Cart extends Component {
                             <Link to='/'  style={{textDecoration:'none'}}>
                                 <MDBBtn className="btn btn-secondary">Back To Home</MDBBtn>
                             </Link>
-                                <MDBBtn className="btn btn-primary" onClick={this.onBtnCheckOut}>Process</MDBBtn>
+                                <MDBBtn className="btn btn-primary" onClick={()=>this.onBtnCheckOut()}>Process</MDBBtn>
                             </MDBModalFooter> 
                         </MDBModal>
                     </MDBContainer>
@@ -409,4 +409,4 @@ const mapStateToProps = ({ user, customer, data }) => {
   return { user, customer, data }
 }
 
-export default connect(mapStateToProps, { checkDataCustomer, addDataCustomer }) (Cart); 
+export default connect(mapStateToProps, { addDataCustomer }) (Cart); 

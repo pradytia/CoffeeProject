@@ -15,7 +15,7 @@ class ManageArtikel extends Component {
         }).catch(err => {
             console.log(err)
         })
-    }
+    } 
 
     renderListArtikel = () => {
         return this.state.listArtikel.map((val,idx) => {
